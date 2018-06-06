@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
@@ -18,7 +19,7 @@
 			<id>matsim</id>
 			<url>https://dl.bintray.com/matsim/matsim</url>
 		</repository>
-		
+
 		<!-- Repository for MATSim snapshots (in case someone wants to switch to 
 			snapshot versions) -->
 		<repository>
@@ -31,33 +32,33 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		
+
 		<!-- Geotools is not on Maven central -->
 		<repository>
 			<id>osgeo</id>
 			<name>Geotools repository</name>
 			<url>http://download.osgeo.org/webdav/geotools</url>
 		</repository>
-		
+
 		<!-- Network visualisation -->
 		<repository>
 			<id>jzy3d-releases</id>
 			<name>Jzy3d Snapshots</name>
 			<url>http://www.jzy3d.org/maven/releases</url>
 		</repository>
-		
+
 		<!-- PackageCloud for matsim-sa -->
-  		<repository>
-    		<id>matsim-up-matsim-up</id>
-    		<url>https://packagecloud.io/matsim-up/matsim-up/maven2</url>
-    		<releases>
-     			<enabled>true</enabled>
-    		</releases>
-    		<snapshots>
-      			<enabled>true</enabled>
-    		</snapshots>
-  		</repository>	
-  	</repositories>
+		<repository>
+			<id>matsim-up-matsim-up</id>
+			<url>https://packagecloud.io/matsim-up/matsim-up/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<!-- This is the matsim "core": -->
@@ -84,7 +85,7 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- The core MATSim-UP repository -->
 		<dependency>
 			<groupId>org.matsim.up</groupId>
@@ -95,24 +96,24 @@
 
 
 	<distributionManagement>
-  		<repository>
-    		<id>packagecloud-matsim-up</id>
-    		<url>packagecloud+https://packagecloud.io/matsim-up/freight-sa</url>
-  		</repository>
-  		<snapshotRepository>
-    		<id>packagecloud-matsim-up</id>
-    		<url>packagecloud+https://packagecloud.io/matsim-up/freight-sa</url>
-  		</snapshotRepository>
+		<repository>
+			<id>packagecloud-matsim-up</id>
+			<url>packagecloud+https://packagecloud.io/matsim-up/freight-sa</url>
+		</repository>
+		<snapshotRepository>
+			<id>packagecloud-matsim-up</id>
+			<url>packagecloud+https://packagecloud.io/matsim-up/freight-sa</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<build>
-	  	<extensions>
-    		<extension>
-      			<groupId>io.packagecloud.maven.wagon</groupId>
-      			<artifactId>maven-packagecloud-wagon</artifactId>
-      			<version>0.0.6</version>
-    		</extension>
-  		</extensions>
+		<extensions>
+			<extension>
+				<groupId>io.packagecloud.maven.wagon</groupId>
+				<artifactId>maven-packagecloud-wagon</artifactId>
+				<version>0.0.6</version>
+			</extension>
+		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -144,37 +145,37 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <defaultGoal>assembly:assembly</defaultGoal>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <artifactId>maven-assembly-plugin</artifactId>
-                            <configuration>
-                                <descriptors>
-                                    <descriptor>src/main/assembly/assembly-release.xml</descriptor>
-                                </descriptors>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <artifactId>maven-jar-plugin</artifactId>
-                            <configuration>
-                                <archive>
-                                    <manifest>
-                                        <addClasspath>true</addClasspath>
-                                        <classpathPrefix>libs/</classpathPrefix>
-                                    </manifest>
-                                </archive>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-    </profiles>
-    
+		<profile>
+			<id>release</id>
+			<build>
+				<defaultGoal>assembly:assembly</defaultGoal>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<artifactId>maven-assembly-plugin</artifactId>
+							<configuration>
+								<descriptors>
+									<descriptor>src/main/assembly/assembly-release.xml</descriptor>
+								</descriptors>
+							</configuration>
+						</plugin>
+						<plugin>
+							<artifactId>maven-jar-plugin</artifactId>
+							<configuration>
+								<archive>
+									<manifest>
+										<addClasspath>true</addClasspath>
+										<classpathPrefix>libs/</classpathPrefix>
+									</manifest>
+								</archive>
+							</configuration>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
+
 </project>

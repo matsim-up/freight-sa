@@ -40,13 +40,6 @@
 			<url>http://download.osgeo.org/webdav/geotools</url>
 		</repository>
 
-		<!-- Network visualisation -->
-		<repository>
-			<id>jzy3d-releases</id>
-			<name>Jzy3d Snapshots</name>
-			<url>http://www.jzy3d.org/maven/releases</url>
-		</repository>
-
 		<!-- PackageCloud for matsim-sa -->
 		<repository>
 			<id>matsim-up-matsim-up</id>

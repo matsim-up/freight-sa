@@ -60,10 +60,9 @@ public class PathDependentNetwork {
 	 * constructor creates its own {@link Random} object for sampling. If you
 	 * require a deterministic outcome, rather use
 	 * {@link PathDependentNetwork#PathDependentNetwork(long))}. 
-	 * @param seed
 	 */
 	public PathDependentNetwork() {
-		this(new Random().nextLong());
+		this(MatsimRandom.getRandom().nextLong());
 	}
 	
 	
@@ -367,10 +366,11 @@ public class PathDependentNetwork {
 	
 	/**
 	 * <b><i>Warning!!</i></b> This method is only meant for testing purposes. 
-	 * You should use {@link #sampleBiasedNextPathDependentNode(Id)}.
+	 * You should use {@link #sampleBiasedNextPathDependentNode(Id, Id)}.
 	 * TODO Finish description.
-	 * @param previousNodeId
-	 * @param randomValue
+	 * @param previousNodeId the preceding node;
+	 * @param currentNodeId the current node;
+	 * @param randomValue a randomly drawn value in the range [0,1].
 	 * @return
 	 */
 	public Id<Node> sampleBiasedNextPathDependentNode(Id<Node> previousNodeId, Id<Node> currentNodeId, double randomValue){
@@ -455,7 +455,7 @@ public class PathDependentNetwork {
 	 * @param randomValue
 	 * @return
 	 */
-	protected Id<Node> sampleEndOfChainNode(Id<Node> previousId, Id<Node> currentId, double randomValue){
+	private Id<Node> sampleEndOfChainNode(Id<Node> previousId, Id<Node> currentId, double randomValue){
 		PathDependentNode currentNode = this.getPathDependentNode(currentId);
 		
 		/* Only consider those nodes who have a 'sink' in their choice set. */
@@ -481,7 +481,7 @@ public class PathDependentNetwork {
 		 * check if any next node can be a 'sink', irrespective of the previous
 		 * node in the path-dependence. */
 		if(choiceMap.isEmpty()){
-			LOG.warn("Check if this is calculated correctly.");
+			LOG.debug("Check if this is calculated correctly.");
 			/* Find another approach to get a next node that can end a chain. */
 			for(Id<Node> otherPrevious : currentNode.getPathDependence().keySet()){
 				map = currentNode.getPathDependentNextNodes(otherPrevious);

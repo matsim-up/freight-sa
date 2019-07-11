@@ -61,7 +61,7 @@ public class FreightChainGenerator {
 	/**
 	 * @param args arguments in the following sequence:
 	 * <ol>
-	 *    <li> absolute path of the complex network file;</li>
+	 *    <li> absolute path of the (path-dependent) complex network file;</li>
 	 *	  <li> the number of plans to generate; </li>
 	 *	  <li> the {@link String} prefix to use for the population Ids;</li>
 	 *	  <li> absolute path to the output population;</li>
@@ -133,9 +133,8 @@ public class FreightChainGenerator {
 		try {
 			int i = 0;
 			for (Future<Plan> job : listOfJobs) {
-				Person vehicle = pf.createPerson(Id.create(prefix + "_" + i++, Person.class));
-				Plan plan;
-				plan = job.get();
+				Person vehicle = pf.createPerson(Id.createPersonId(prefix + "_" + i++));
+				Plan plan = job.get();
 
 				/* Add the plan to the person, and the person to the population. */
 				vehicle.addPlan(plan);
@@ -221,7 +220,7 @@ public class FreightChainGenerator {
 				if (!validChain) {
 					chainRestarts++;
 					TOTAL_CHAIN_RESTARTS++;
-					LOG.info("  ===> Chain restarts: " + chainRestarts);
+					LOG.debug("  ===> Chain restarts: " + chainRestarts);
 					chainAttempts = 0;
 				}
 			}

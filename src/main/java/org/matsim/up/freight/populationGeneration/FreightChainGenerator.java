@@ -119,12 +119,12 @@ public class FreightChainGenerator {
 
 		threadExecutor.shutdown();
 		while (!threadExecutor.isTerminated()) {
-			try {
-				TimeUnit.SECONDS.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				throw new RuntimeException("Terminated while waiting (5 seconds at a time) for multi-threading to finish.");
-			}
+//			try {
+//				TimeUnit.SECONDS.sleep(5);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//				throw new RuntimeException("Terminated while waiting (5 seconds at a time) for multi-threading to finish.");
+//			}
 		}
 		counter.printCounter();
 

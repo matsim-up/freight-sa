@@ -71,7 +71,7 @@ import com.vividsolutions.jts.geom.Polygon;
  * Class to cluster the activities of Digicore vehicles' activity chains using
  * the {@link DJCluster} approach. Once clustered, the activity chains are <i>not</i>
  * adjusted. Rather, the clustering outputs can be used as inputs to a class 
- * such as {@link ClusteredChainGenerator} (now deprecated) or {@link FacilityToActivityAssigner}. 
+ * such as  {@link org.matsim.up.freight.clustering.postclustering.FacilityToActivityAssigner}.
  *
  * @author jwjoubert
  */
@@ -153,6 +153,7 @@ public class DigicoreClusterRunner {
 					LOG.warn("  --> " + folder.getAbsolutePath());
 					FileUtils.delete(folder);
 				}
+				//noinspection ResultOfMethodCallIgnored
 				folder.mkdirs();
 				
 				/* Cluster. */
@@ -188,9 +189,9 @@ public class DigicoreClusterRunner {
 	 * Write the {@link ActivityFacilities} to file along with the 
 	 * {@link ConcaveHull} and number of points as {@link Attributes}.
 	 * 
-	 * @param theFacilityFile
+	 * @param theFacilityFile absolute path of facilities file.
 	 */
-	public void writeOutput(String theFacilityFile) {
+	private void writeOutput(String theFacilityFile) {
 		/* Write (for the current configuration) facilities, and the attributes, to file. */
 		LOG.info("-------------------------------------------------------------");
 		LOG.info(" Writing the facilities to file: " + theFacilityFile);
@@ -203,37 +204,7 @@ public class DigicoreClusterRunner {
 		fw.write(theFacilityFile);				
 	}
 
-	/**
-	 * This method is now deprecated as a {@link Facility} now has its own 
-	 * {@link Attributes} and need not have the separate {@link ObjectAttributes}
-	 * file.
-	 *  
-	 * @param theFacilityFile
-	 * @param theFacilityAttributeFile
-	 */
-	@Deprecated
-	public void writeOutput(String theFacilityFile, String theFacilityAttributeFile) {
-		/* Write (for the current configuration) facilities, and the attributes, to file. */
-		LOG.info("-------------------------------------------------------------");
-		LOG.info(" Writing the facilities to file: " + theFacilityFile);
-		FacilitiesWriter fw = new FacilitiesWriter(facilities);
-		Map<Class<?>, AttributeConverter<?>> converters = new HashMap<>();
-		converters.put(Point.class, new HullConverter());
-		converters.put(LineString.class, new HullConverter());
-		converters.put(Polygon.class, new HullConverter());
-		fw.putAttributeConverters(converters );
-		fw.write(theFacilityFile);				
-		LOG.info(" Writing the facility attributes to file: " + theFacilityAttributeFile);
-		ObjectAttributesXmlWriter ow = new ObjectAttributesXmlWriter(facilityAttributes);
-		ow.putAttributeConverter(Point.class, new HullConverter());
-		ow.putAttributeConverter(LineString.class, new HullConverter());
-		ow.putAttributeConverter(Polygon.class, new HullConverter());
-		ow.writeFile(theFacilityAttributeFile);
-	}
-
-
-
-	public void writePrettyCsv(String theFacilityCsvFile) {
+	private void writePrettyCsv(String theFacilityCsvFile) {
 		/* Write out pretty CSV file. */
 		LOG.info(" Writing the facilities to csv: " + theFacilityCsvFile);
 		BufferedWriter bw = IOUtils.getBufferedWriter(theFacilityCsvFile);
@@ -245,7 +216,7 @@ public class DigicoreClusterRunner {
 				bw.write(id.toString());
 				bw.write(",");
 				bw.write(String.format("%.1f,%.1f,", af.getCoord().getX(), af.getCoord().getY()));
-				bw.write(String.valueOf(this.facilityAttributes.getAttribute(id.toString(), "DigicoreActivityCount")));
+				bw.write(String.valueOf(this.facilityAttributes.getAttribute(id.toString(), ClusterUtils.ATTR_DIGICORE_ACTIVITY_COUNT)));
 				bw.newLine();
 			}
 		} catch (IOException e) {

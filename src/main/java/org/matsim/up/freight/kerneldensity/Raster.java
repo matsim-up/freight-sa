@@ -79,7 +79,7 @@ public class Raster{
 	 * 		  the study area for which the raster should be created. It is assumed
 	 * 		  that the polygon's coordinate system is in WGS84-UTM so that the unit 
 	 * 		  of measure is meters. 
-	 * @param stride the number of units (meters, if WGS84-UTM reference system is
+	 * @param resolution the number of units (meters, if WGS84-UTM reference system is
 	 * 		  used) that each raster pixel will consider, i.e. the resolution of 
 	 * 		  the raster image.
 	 * @param radius expressed in meters (if WGS84-UTM reference system is used) 

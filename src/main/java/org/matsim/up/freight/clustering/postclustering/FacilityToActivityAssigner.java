@@ -18,8 +18,8 @@ import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.collections.QuadTree;
 import org.matsim.core.utils.misc.Counter;
 import org.matsim.facilities.ActivityFacility;
-import org.matsim.facilities.FacilitiesReaderMatsimV1;
 import org.matsim.facilities.MatsimFacilitiesReader;
+import org.matsim.up.freight.clustering.ClusterUtils;
 import org.matsim.up.freight.clustering.HullConverter;
 import org.matsim.up.freight.clustering.containers.MyMultiFeatureReader;
 import org.matsim.up.freight.clustering.containers.MyZone;
@@ -52,14 +52,15 @@ public class FacilityToActivityAssigner {
 	 * chains will be written out to new XML files.
 	 * 
 	 * <h4>Note:</h4>
-	 * This class supersedes the original {@link ClusteredChainGenerator}.
+	 * This class supersedes the original <code>ClusteredChainGenerator</code>
+	 * (if it is still visible somewhere).
 	 *
 	 * @param args
 	 * <ul>
 	 * <li> args[0] = the absolute path of the input {@link DigicoreVehicles} 
 	 * 				  container;
 	 * <li> args[1] = the absolute path of the facilities file that was created
-	 * 				  by the {@link DigicoreClusterRunner} class;
+	 * 				  by the {@link org.matsim.up.freight.clustering.DigicoreClusterRunner} class;
 	 * <li> args[2] = the number of threads to use in the multithreaded parts
 	 * <li> args[3] = the absolute path of the shapefile of the study area. 
 	 * 				  only vehicles with at least one activity inside the area
@@ -126,14 +127,13 @@ public class FacilityToActivityAssigner {
 	 * This method takes each vehicle file and reconstructs the chains.
 	 * 
 	 * @param facilityTree {@link QuadTree} of {@link DigicoreFacility}s built 
-	 * 		  with the {@link #buildFacilityQuadTree(String, String)} method. 
-	 * @param inputFolder original vehicles file location;
-	 * @param outputFolder adapted vehicle file location;
+	 * 		  with the {@link #buildFacilityQuadTree(String)} method.
+	 * @param inputVehicles original vehicles file location;
 	 * @param nThreads number of threads to use.
+	 * @param studyArea the geometry of the overall study area.
 	 * @return {@link ConcurrentHashMap}
 	 * @throws IOException
 	 */
-
 	public DigicoreVehicles reconstructChains(
 			QuadTree<DigicoreFacility> facilityTree, String inputVehicles, 
 			int nThreads, Geometry studyArea) throws IOException {
@@ -196,37 +196,34 @@ public class FacilityToActivityAssigner {
 	
 
 	/**
-	 * This method reads a MATSim facilities file, as well as the facilities'
-	 * associated {@link ObjectAttributes} and builds and returns a 
+	 * This method reads a MATSim facilities file and builds and returns a
 	 * {@link QuadTree} of {@link DigicoreFacility}s.
 	 * 
-	 * @param facilityFile
-	 * @throws IOException
+	 * @param facilityFile absolute path to facilities.
 	 */
-	public QuadTree<DigicoreFacility> buildFacilityQuadTree(String facilityFile) throws IOException {
+	public QuadTree<DigicoreFacility> buildFacilityQuadTree(String facilityFile) {
 		long startTime = System.currentTimeMillis();
 		log.info("Building QuadTree of facilities...");
 
 		/* Read facilities. */
 		MutableScenario sc = (MutableScenario) ScenarioUtils.createScenario(ConfigUtils.createConfig());
 		MatsimFacilitiesReader mfr = new MatsimFacilitiesReader(sc);
-		FacilitiesReaderMatsimV1 fr = new FacilitiesReaderMatsimV1(sc);
 		mfr.putAttributeConverter(Point.class, new HullConverter());
 		mfr.putAttributeConverter(LineString.class, new HullConverter());
 		mfr.putAttributeConverter(Polygon.class, new HullConverter());
 		mfr.readFile(facilityFile);
 
 		/* Convert each MATSim facility to a specific DigicoreFacility. */
-		List<DigicoreFacility> facilityList = new ArrayList<DigicoreFacility>();
+		List<DigicoreFacility> facilityList = new ArrayList<>();
 		for(Id<ActivityFacility> id : sc.getActivityFacilities().getFacilities().keySet()){
 			ActivityFacility af = sc.getActivityFacilities().getFacilities().get(id); 
 
 			DigicoreFacility df = new DigicoreFacility(id);
 			df.setCoord(af.getCoord());
-			df.getAttributes().putAttribute("concaveHull", 
-					af.getAttributes().getAttribute("concaveHull"));
-			df.getAttributes().putAttribute("digicoreActivityCount", 
-					af.getAttributes().getAttribute("digicoreActivityCount"));
+			df.getAttributes().putAttribute(ClusterUtils.ATTR_CONCAVE_HULL,
+					af.getAttributes().getAttribute(ClusterUtils.ATTR_CONCAVE_HULL));
+			df.getAttributes().putAttribute(ClusterUtils.ATTR_DIGICORE_ACTIVITY_COUNT,
+					af.getAttributes().getAttribute(ClusterUtils.ATTR_DIGICORE_ACTIVITY_COUNT));
 			
 			facilityList.add(df);
 		}
@@ -245,7 +242,7 @@ public class FacilityToActivityAssigner {
 			yMax = Math.max(yMax, df.getCoord().getY());
 		}
 
-		QuadTree<DigicoreFacility> facilityTree = new QuadTree<DigicoreFacility>(xMin,yMin,xMax,yMax);
+		QuadTree<DigicoreFacility> facilityTree = new QuadTree<>(xMin, yMin, xMax, yMax);
 
 		/* Populate the QuadTree with the Digicore facilities. */
 		for(DigicoreFacility df : facilityList){

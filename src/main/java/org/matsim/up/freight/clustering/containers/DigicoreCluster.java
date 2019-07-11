@@ -23,13 +23,13 @@ package org.matsim.up.freight.clustering.containers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
 import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Identifiable;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Point;
 
 /**
  * A container class for clusters. Activity locations are grouped into clusters, each
@@ -49,7 +49,7 @@ public class DigicoreCluster implements Identifiable<DigicoreCluster>{
 			
 	public DigicoreCluster(Id<DigicoreCluster> clusterId){
 		this.clusterId = clusterId;
-		this.activities = new ArrayList<ClusterActivity>();
+		this.activities = new ArrayList<>();
 	}
 	
 	/**

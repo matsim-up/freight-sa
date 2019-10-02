@@ -19,10 +19,10 @@
 
 package org.matsim.up.freight.clustering.containers;
 
+import org.locationtech.jts.triangulate.quadedge.QuadEdge;
+
 import java.util.Comparator;
 import java.util.Map;
-
-import com.vividsolutions.jts.triangulate.quadedge.QuadEdge;
 
 public class DoubleComparator implements Comparator<QuadEdge> {
 

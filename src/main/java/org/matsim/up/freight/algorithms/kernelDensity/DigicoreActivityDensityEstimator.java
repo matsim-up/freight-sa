@@ -33,6 +33,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
+import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.core.utils.io.IOUtils;
 import org.matsim.core.utils.misc.Counter;
@@ -42,10 +46,6 @@ import org.matsim.up.freight.containers.DigicoreVehicle;
 import org.matsim.up.freight.io.DigicoreVehicleReader_v1;
 import org.matsim.up.utils.FileUtils;
 import org.matsim.up.utils.Header;
-
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
 
 
 public class DigicoreActivityDensityEstimator {
@@ -192,7 +192,7 @@ public class DigicoreActivityDensityEstimator {
 	 * @param list of rasters created from individual vehicle files.
 	 * @param stride the size, width or breadth, of each raster pixel.
 	 * @param radius the kernel density impact area each point will have.
-	 * @param kdeType the type of estimate required. See {@link Raster#processPoint(Point)}.
+	 * @param kdeType the type of estimate required. See {@link Raster#processPoint(Coord)}}.
 	 * @param color the base color of the raster. 
 	 * @throws IOException 
 	 * @throws NumberFormatException 

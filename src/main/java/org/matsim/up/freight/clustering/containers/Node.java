@@ -19,7 +19,8 @@
 
 package org.matsim.up.freight.clustering.containers;
 
-import com.vividsolutions.jts.geom.Coordinate;
+
+import org.locationtech.jts.geom.Coordinate;
 
 public class Node {
 	/** ID of the vertex */

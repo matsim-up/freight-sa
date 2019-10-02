@@ -28,6 +28,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.core.utils.collections.QuadTree;
@@ -37,10 +40,6 @@ import org.matsim.up.freight.containers.DigicoreActivity;
 import org.matsim.up.freight.containers.DigicoreChain;
 import org.matsim.up.freight.containers.DigicoreVehicle;
 import org.matsim.up.freight.io.DigicoreVehicleReader_v1;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
 
 public class DigicoreActivityReaderRunnable implements Runnable {
 	

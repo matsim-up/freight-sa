@@ -28,6 +28,9 @@ import java.util.TimeZone;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.testcases.MatsimTestUtils;
@@ -37,9 +40,6 @@ import org.matsim.up.freight.containers.DigicoreChain;
 import org.matsim.up.freight.containers.DigicoreVehicle;
 import org.matsim.vehicles.Vehicle;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
 
 public class GeometricChainSimilarityAnalyserTest {
 	@Rule public MatsimTestUtils utils = new MatsimTestUtils();

@@ -29,6 +29,7 @@ import java.util.TimeZone;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.locationtech.jts.geom.*;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.core.config.ConfigUtils;
@@ -48,11 +49,6 @@ import org.matsim.up.freight.io.DigicoreVehiclesWriter;
 import org.matsim.utils.objectattributes.AttributeConverter;
 import org.matsim.vehicles.Vehicle;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Test using v2 {@link DigicoreVehicles}.

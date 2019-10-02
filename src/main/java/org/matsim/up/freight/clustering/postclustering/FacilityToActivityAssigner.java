@@ -11,6 +11,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 import org.matsim.api.core.v01.Id;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.scenario.MutableScenario;
@@ -29,11 +33,6 @@ import org.matsim.up.freight.containers.DigicoreVehicles;
 import org.matsim.up.freight.io.DigicoreVehiclesReader;
 import org.matsim.up.freight.io.DigicoreVehiclesWriter;
 import org.matsim.up.utils.Header;
-
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
 
 
 public class FacilityToActivityAssigner {

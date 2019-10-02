@@ -19,10 +19,11 @@
 
 package org.matsim.up.freight.clustering.containers;
 
+import org.locationtech.jts.geom.LineSegment;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vividsolutions.jts.geom.LineSegment;
 
 public class Edge {
 	/** ID of the edge */

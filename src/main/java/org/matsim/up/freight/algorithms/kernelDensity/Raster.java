@@ -30,18 +30,12 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import org.apache.log4j.Logger;
+import org.locationtech.jts.geom.*;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.core.utils.io.IOUtils;
 import org.matsim.core.utils.misc.Counter;
 
 import cern.colt.matrix.impl.SparseDoubleMatrix2D;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * Class used to generate a raster image (with square pixels) that represents the 
@@ -79,7 +73,7 @@ public class Raster{
 	 * 		  the study area for which the raster should be created. It is assumed
 	 * 		  that the polygon's coordinate system is in WGS84-UTM so that the unit 
 	 * 		  of measure is meters. 
-	 * @param stride the number of units (meters, if WGS84-UTM reference system is
+	 * @param resolution the number of units (meters, if WGS84-UTM reference system is
 	 * 		  used) that each raster pixel will consider, i.e. the resolution of 
 	 * 		  the raster image.
 	 * @param radius expressed in meters (if WGS84-UTM reference system is used) 

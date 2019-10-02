@@ -22,14 +22,10 @@ package org.matsim.up.freight.clustering.containers;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.locationtech.jts.geom.*;
 import org.matsim.testcases.MatsimTestUtils;
 import org.matsim.up.freight.clustering.containers.ConcaveHull;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Polygon;
 
 public class ConcaveHullTest {
 	@Rule public MatsimTestUtils utils = new MatsimTestUtils();

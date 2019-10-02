@@ -23,13 +23,18 @@ package org.matsim.up.freight.clustering.containers;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.Identifiable;
+import org.matsim.up.freight.containers.DigicoreActivity;
 
 
 /**
  * A simple class linking a {@link DigicoreActivity} to a specific cluster.
- * 
+ *
+ * This is now deprecated. Rather use the version in matsim.org (intersection
+ * simplification).
+ *
  * @author jwjoubert
  */
+@Deprecated
 public class ClusterActivity implements Identifiable<Coord>{
 	private Id<Coord> activityId;
 	private Coord coord;

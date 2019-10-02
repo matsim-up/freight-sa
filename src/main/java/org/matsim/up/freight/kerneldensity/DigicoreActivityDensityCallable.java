@@ -28,18 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import org.locationtech.jts.geom.*;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.core.utils.io.IOUtils;
 import org.matsim.core.utils.misc.Counter;
 import org.matsim.up.freight.containers.DigicoreActivity;
 import org.matsim.up.freight.containers.DigicoreChain;
 import org.matsim.up.freight.containers.DigicoreVehicle;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
 
 
 public class DigicoreActivityDensityCallable implements Callable<String> {
@@ -50,8 +45,8 @@ public class DigicoreActivityDensityCallable implements Callable<String> {
 	private Raster raster;
 	private final File tempFolder;
 	
-	public DigicoreActivityDensityCallable(MultiPolygon polygon, DigicoreVehicle vehicle, Counter counter, 
-			double resolution, double radius, int kdeType, Color color, String tempFolder) throws IOException {
+	public DigicoreActivityDensityCallable(MultiPolygon polygon, DigicoreVehicle vehicle, Counter counter,
+										   double resolution, double radius, int kdeType, Color color, String tempFolder) throws IOException {
 		this.polygon = (Polygon) polygon.getEnvelope();
 		this.vehicle = vehicle;
 		this.counter = counter;

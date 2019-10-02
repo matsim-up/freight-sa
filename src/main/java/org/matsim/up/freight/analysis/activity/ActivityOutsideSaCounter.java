@@ -17,8 +17,8 @@
  * *********************************************************************** */
 package org.matsim.up.freight.analysis.activity;
 
-import com.vividsolutions.jts.geom.*;
 import org.apache.log4j.Logger;
+import org.locationtech.jts.geom.*;
 import org.matsim.api.core.v01.Id;
 import org.matsim.core.utils.gis.ShapeFileReader;
 import org.matsim.core.utils.io.IOUtils;

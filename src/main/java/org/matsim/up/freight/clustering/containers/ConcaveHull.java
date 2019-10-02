@@ -31,25 +31,17 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.operation.linemerge.LineMerger;
+import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
+import org.locationtech.jts.triangulate.quadedge.QuadEdge;
+import org.locationtech.jts.triangulate.quadedge.QuadEdgeSubdivision;
+import org.locationtech.jts.triangulate.quadedge.QuadEdgeTriangle;
+import org.locationtech.jts.triangulate.quadedge.Vertex;
+import org.locationtech.jts.util.UniqueCoordinateArrayFilter;
 import org.matsim.core.utils.io.IOUtils;
 import org.matsim.up.utils.Header;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineSegment;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.operation.linemerge.LineMerger;
-import com.vividsolutions.jts.triangulate.DelaunayTriangulationBuilder;
-import com.vividsolutions.jts.triangulate.quadedge.QuadEdge;
-import com.vividsolutions.jts.triangulate.quadedge.QuadEdgeSubdivision;
-import com.vividsolutions.jts.triangulate.quadedge.QuadEdgeTriangle;
-import com.vividsolutions.jts.triangulate.quadedge.Vertex;
-import com.vividsolutions.jts.util.UniqueCoordinateArrayFilter;
 
 /**
  * Class to generate the concave hull from a set of given points. The algorithm 
@@ -90,7 +82,7 @@ public class ConcaveHull {
 	 * {@link #ConcaveHull(GeometryCollection, double, boolean)}
 	 * @param points the {@link GeometryCollection} of input points for which 
 	 * 		  the concave hull will be computed. In the South African 
-	 * 		  application the will typically be {@link Point}s, and not 
+	 * 		  application the will typically be {@link Point}s, and not
 	 * 		  {@link Coordinate}s as the latter is <i>not</i> a {@link Geometry}.
 	 * @param threshold the edge length threshold used by the concave hull
 	 *        algorithm. Only border edges with a length <i>longer</i> than the

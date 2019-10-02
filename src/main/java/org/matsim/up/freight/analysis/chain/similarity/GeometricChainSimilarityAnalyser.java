@@ -25,19 +25,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.operation.buffer.BufferParameters;
 import org.matsim.core.utils.misc.Counter;
 import org.matsim.up.freight.containers.DigicoreActivity;
 import org.matsim.up.freight.containers.DigicoreChain;
 import org.matsim.up.utils.FileUtils;
 import org.matsim.up.utils.Header;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.operation.buffer.BufferBuilder;
-import com.vividsolutions.jts.operation.buffer.BufferParameters;
 
 public class GeometricChainSimilarityAnalyser {
 	final private static Logger LOG = Logger.getLogger(GeometricChainSimilarityAnalyser.class);
@@ -122,7 +117,7 @@ public class GeometricChainSimilarityAnalyser {
 		bp.setEndCapStyle(BufferParameters.CAP_ROUND);
 		bp.setJoinStyle(BufferParameters.JOIN_MITRE);
 		bp.setSingleSided(false);
-		BufferBuilder bb = new BufferBuilder(bp);
+//		BufferBuilder bb = new BufferBuilder(bp);
 		
 		Geometry g = ls.buffer(d, 50 );
 		if(g instanceof Polygon){

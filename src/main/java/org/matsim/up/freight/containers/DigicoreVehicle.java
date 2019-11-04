@@ -1,8 +1,5 @@
 package org.matsim.up.freight.containers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jfree.util.Log;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -11,13 +8,16 @@ import org.locationtech.jts.geom.Point;
 import org.matsim.api.core.v01.Id;
 import org.matsim.vehicles.Vehicle;
 import org.matsim.vehicles.VehicleType;
-import org.matsim.vehicles.VehicleTypeImpl;
+import org.matsim.vehicles.VehicleUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DigicoreVehicle implements Vehicle {
 	private Id<Vehicle> id;
-	private VehicleType type = new VehicleTypeImpl(Id.create("commercial", VehicleType.class));
-	private List<DigicoreChain> chains = new ArrayList<DigicoreChain>();
+	private VehicleType type = VehicleUtils.createVehicleType(Id.create("commercial", VehicleType.class));
+	private List<DigicoreChain> chains = new ArrayList<>();
 	
 	public DigicoreVehicle(final Id<Vehicle> id) {
 		this.id = id;
@@ -36,7 +36,7 @@ public class DigicoreVehicle implements Vehicle {
 	}
 	
 	public void setType(String type){
-		this.type = new VehicleTypeImpl(Id.create(type, VehicleType.class));
+		this.type = VehicleUtils.createVehicleType(Id.create(type, VehicleType.class));
 	}
 	
 	
@@ -47,12 +47,10 @@ public class DigicoreVehicle implements Vehicle {
 	 * takes place in the area.
 	 * 
 	 * @param area the MultiPolygon obtained from a shapefile
-	 * @param threshold the percentage to distinguish between inter- and intra-provincial vehicles
-	 * 		  (we use 0.6)
 	 * @return an int value (either 0 for intra-provincial, 1 for inter-provincial, 2 for extra-provincial)
 	 */
-	
-	public int determineIfIntraInterExtraVehicle(MultiPolygon area, double threshold){
+	@Deprecated
+	public int determineIfIntraInterExtraVehicle(MultiPolygon area){
 		int vehicleType = 4; //just arbitrary value to know if the vehicle couldn't be classified. 
 		int inside = 0;
 		int allCount = 0;
@@ -60,7 +58,7 @@ public class DigicoreVehicle implements Vehicle {
 		GeometryFactory gf = new GeometryFactory();
 		
 		for(DigicoreChain dc : this.getChains()){
-			Point p = null;
+			Point p;
 			int countInside_Chain = 0;
 			
 			/*

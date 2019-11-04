@@ -168,7 +168,7 @@ public class MyGraphAnalyser {
 		}
 		
 		LOG.info("Writing the output to " + args[2]);
-		BufferedWriter bw = IOUtils.getBufferedWriter(args[2], true);
+		BufferedWriter bw = IOUtils.getBufferedWriter(args[2]);
 		try{
 			try {
 				bw.write("NodeId,Long,Lat,BC,EC");

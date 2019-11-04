@@ -77,12 +77,12 @@ public class FacilityToActivityAssignerTest{
 		fr.readFile(utils.getOutputDirectory() + "facilities.xml");
 		ActivityFacilities afs = sc.getActivityFacilities();
 
-		Assert.assertTrue("Facility 1 not in map.", afs.getFacilities().containsKey(Id.create("f1", Facility.class)));
-		Assert.assertTrue("Facility 2 not in map.", afs.getFacilities().containsKey(Id.create("f2", Facility.class)));
-		Assert.assertTrue("Facility 3 not in map.", afs.getFacilities().containsKey(Id.create("f3", Facility.class)));
-		ActivityFacility f1 = afs.getFacilities().get(Id.create("f1", Facility.class));
-		ActivityFacility f2 = afs.getFacilities().get(Id.create("f2", Facility.class));
-		ActivityFacility f3 = afs.getFacilities().get(Id.create("f3", Facility.class));
+		Assert.assertTrue("Facility 1 not in map.", afs.getFacilities().containsKey(Id.create("f1", ActivityFacility.class)));
+		Assert.assertTrue("Facility 2 not in map.", afs.getFacilities().containsKey(Id.create("f2", ActivityFacility.class)));
+		Assert.assertTrue("Facility 3 not in map.", afs.getFacilities().containsKey(Id.create("f3", ActivityFacility.class)));
+		ActivityFacility f1 = afs.getFacilities().get(Id.create("f1", ActivityFacility.class));
+		ActivityFacility f2 = afs.getFacilities().get(Id.create("f2", ActivityFacility.class));
+		ActivityFacility f3 = afs.getFacilities().get(Id.create("f3", ActivityFacility.class));
 
 		/* Check facility coordinates. */
 		Assert.assertEquals("Wrong centroid for f1", new Coord(0.5, 5.5), f1.getCoord());

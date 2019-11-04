@@ -56,7 +56,6 @@ import org.matsim.up.freight.algorithms.complexNetwork.PathDependentNetwork;
 import org.matsim.up.utils.Header;
 import org.matsim.vehicles.Vehicle;
 import org.matsim.vehicles.VehicleType;
-import org.matsim.vehicles.VehicleTypeImpl;
 import org.matsim.vehicles.VehicleUtils;
 import org.matsim.vehicles.Vehicles;
 
@@ -172,15 +171,15 @@ public class RunNationalFreight {
 		
 		/* Set the population as "subpopulation", and create a vehicle for each. */
 		Vehicles vehicles = ((MutableScenario)sc).getVehicles();
-		VehicleType truckType = new VehicleTypeImpl(Id.create("commercial", VehicleType.class));
+		VehicleType truckType = VehicleUtils.createVehicleType(Id.create("commercial", VehicleType.class));
 		truckType.setMaximumVelocity(100./3.6);
 		truckType.setLength(18.);
 		vehicles.addVehicleType(truckType);
 		
 		for(Person person : sc.getPopulation().getPersons().values()){
 			/* Subpopulation. */
-			sc.getPopulation().getPersonAttributes().putAttribute(person.getId().toString(), config.plans().getSubpopulationAttributeName(), "commercial");
-			
+			person.getAttributes().putAttribute(config.plans().getSubpopulationAttributeName(), "commercial");
+
 			/* Vehicles */
 			Vehicle truck = VehicleUtils.getFactory().createVehicle(Id.create(person.getId(), Vehicle.class), truckType);
 			vehicles.addVehicle(truck);

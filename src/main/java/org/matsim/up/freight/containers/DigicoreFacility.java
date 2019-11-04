@@ -1,16 +1,14 @@
 package org.matsim.up.freight.containers;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.matsim.api.core.v01.Coord;
-import org.matsim.api.core.v01.Customizable;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
-import org.matsim.core.scenario.CustomizableUtils;
 import org.matsim.facilities.ActivityFacility;
 import org.matsim.facilities.ActivityOption;
 import org.matsim.utils.objectattributes.attributable.Attributes;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 public class DigicoreFacility implements ActivityFacility {
 		
@@ -18,9 +16,8 @@ public class DigicoreFacility implements ActivityFacility {
 	private Id<Link> linkId;
 	private Coord coord;
 	private Attributes attributes = new Attributes();
-	private Map<String, ActivityOption> options = new TreeMap<String, ActivityOption>();
-	private Customizable customizableDelegate;
-	
+	private Map<String, ActivityOption> options = new TreeMap<>();
+
 	public DigicoreFacility(Id<ActivityFacility> facilityId) {
 		this.id = facilityId;
 	}
@@ -43,14 +40,6 @@ public class DigicoreFacility implements ActivityFacility {
 	}
 
 	@Override
-	public Map<String, Object> getCustomAttributes() {
-		if (this.customizableDelegate == null) {
-			this.customizableDelegate = CustomizableUtils.createCustomizable();
-		}
-		return this.customizableDelegate.getCustomAttributes();
-	}
-
-	@Override
 	public Map<String, ActivityOption> getActivityOptions() {
 		return this.options;
 	}
@@ -65,4 +54,8 @@ public class DigicoreFacility implements ActivityFacility {
 		return this.attributes;
 	}
 
+	@Override
+	public Map<String, Object> getCustomAttributes() {
+		return this.attributes.getAsMap();
+	}
 }

@@ -23,14 +23,9 @@ package org.matsim.up.freight.clustering;
 import org.junit.Assert;
 import org.junit.Test;
 import org.locationtech.jts.geom.*;
-import org.matsim.up.freight.clustering.HullConverter;
 
-
+@Deprecated
 public class HullConverterTest {
-
-	public void testConvert() {
-
-	}	
 
 	/**
 	 * 	   4           3
@@ -45,7 +40,7 @@ public class HullConverterTest {
 	@Test
 	public void testConvertString(){
 		/* Must pass a Geometry. */
-		Object o = new Integer(0);
+		Object o = 0;
 		HullConverter hc = new HullConverter();
 		String s = hc.convertToString(o);
 		Assert.assertTrue("Should receive empty string", s.isEmpty());

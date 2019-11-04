@@ -13,7 +13,7 @@ import java.util.TreeMap;
 public class DigicoreFacility implements ActivityFacility {
 		
 	private Id<ActivityFacility> id;
-	private Id<Link> linkId;
+	private Id<Link> linkId = null;
 	private Coord coord;
 	private Attributes attributes = new Attributes();
 	private Map<String, ActivityOption> options = new TreeMap<>();
@@ -36,6 +36,7 @@ public class DigicoreFacility implements ActivityFacility {
 	
 	@Override
 	public Id<Link> getLinkId() {
+		/*TODO This will always be null right now (Nov'19) */
 		return this.linkId;
 	}
 

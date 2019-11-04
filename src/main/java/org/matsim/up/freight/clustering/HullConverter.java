@@ -39,10 +39,11 @@ import org.matsim.utils.objectattributes.attributable.Attributes;
  * used to write a concave hull's characteristics to an {@link ObjectAttributes}
  * file for facilities, or simply as a {@link Facility}'s {@link Attributes}. 
  *
- * This ios now deprecated. Rather use the version in matsim.org (intersection
+ * This is now deprecated. Rather use the version in matsim.org (intersection
  * simplification).
  * @author jwjoubert
  */
+@SuppressWarnings("DeprecatedIsStillUsed")
 @Deprecated
 public class HullConverter implements AttributeConverter<Geometry> {
 	private final Logger log = Logger.getLogger(HullConverter.class);
@@ -52,7 +53,7 @@ public class HullConverter implements AttributeConverter<Geometry> {
 		GeometryFactory gf = new GeometryFactory();
 		Geometry g;
 
-		List<Coordinate> list = new ArrayList<Coordinate>();
+		List<Coordinate> list = new ArrayList<>();
 		String[] sa = value.split(",");
 		for(String s : sa){
 			String[] sa2 = s.substring(1, s.length()-1).split(";");
@@ -90,21 +91,21 @@ public class HullConverter implements AttributeConverter<Geometry> {
 		
 		/* Convert to the format: (x1;y1),(x2;y2),...,(xn;yn) */
 		Coordinate[] ca = ((Geometry)o).getCoordinates();
-		String s = new String();
+		StringBuilder s = new StringBuilder();
 		for(int i = 0; i < ca.length-1; i++){
-			s += "(";
-			s += ca[i].x;
-			s += ";";
-			s += ca[i].y;
-			s += "),";
+			s.append("(");
+			s.append(ca[i].x);
+			s.append(";");
+			s.append(ca[i].y);
+			s.append("),");
 		}
-		s += "(";
-		s += ca[ca.length-1].x;
-		s += ";";
-		s += ca[ca.length-1].y;
-		s += ")";
+		s.append("(");
+		s.append(ca[ca.length - 1].x);
+		s.append(";");
+		s.append(ca[ca.length - 1].y);
+		s.append(")");
 		
-		return s;
+		return s.toString();
 	}
 
 }

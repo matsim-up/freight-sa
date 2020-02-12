@@ -320,7 +320,7 @@ public class PathDependentNetwork {
 	 *
 	 * @return
 	 */
-	public Integer[] sampleChainAttributes(Id<Node> startNode, double randomValue) {
+	Integer[] sampleChainAttributes(Id<Node> startNode, double randomValue) {
 		PathDependentNode node = this.getPathDependentNode(startNode);
 
 		Id<Node> sourceId = Id.createNodeId("source");

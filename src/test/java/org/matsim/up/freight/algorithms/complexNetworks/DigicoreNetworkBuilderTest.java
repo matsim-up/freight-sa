@@ -12,7 +12,6 @@ import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.facilities.ActivityFacility;
 import org.matsim.testcases.MatsimTestUtils;
-import org.matsim.up.freight.algorithms.complexNetwork.DigicoreNetworkBuilder;
 import org.matsim.up.freight.containers.DigicoreActivity;
 import org.matsim.up.freight.containers.DigicoreChain;
 

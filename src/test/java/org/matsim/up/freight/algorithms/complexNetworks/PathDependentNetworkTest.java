@@ -33,8 +33,7 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Node;
 import org.matsim.facilities.ActivityFacility;
 import org.matsim.testcases.MatsimTestUtils;
-import org.matsim.up.freight.algorithms.complexNetwork.PathDependentNetwork;
-import org.matsim.up.freight.algorithms.complexNetwork.PathDependentNetwork.PathDependentNode;
+import org.matsim.up.freight.algorithms.complexNetworks.PathDependentNetwork.PathDependentNode;
 import org.matsim.up.freight.containers.DigicoreActivity;
 import org.matsim.up.freight.containers.DigicoreChain;
 

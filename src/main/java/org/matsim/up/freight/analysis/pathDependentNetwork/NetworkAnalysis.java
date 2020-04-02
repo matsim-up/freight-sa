@@ -36,9 +36,9 @@ import org.matsim.core.utils.geometry.CoordinateTransformation;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.matsim.core.utils.io.IOUtils;
 import org.matsim.core.utils.misc.Counter;
-import org.matsim.up.freight.algorithms.complexNetwork.DigicorePathDependentNetworkReader_v2;
-import org.matsim.up.freight.algorithms.complexNetwork.PathDependentNetwork;
-import org.matsim.up.freight.algorithms.complexNetwork.PathDependentNetwork.PathDependentNode;
+import org.matsim.up.freight.algorithms.complexNetworks.DigicorePathDependentNetworkReader_v2;
+import org.matsim.up.freight.algorithms.complexNetworks.PathDependentNetwork;
+import org.matsim.up.freight.algorithms.complexNetworks.PathDependentNetwork.PathDependentNode;
 import org.matsim.up.utils.Header;
 
 import com.google.common.base.Function;

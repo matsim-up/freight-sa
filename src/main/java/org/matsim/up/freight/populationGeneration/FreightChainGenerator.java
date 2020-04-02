@@ -31,8 +31,8 @@ import org.matsim.core.population.PopulationUtils;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.core.utils.misc.Counter;
 import org.matsim.facilities.ActivityFacility;
-import org.matsim.up.freight.algorithms.complexNetwork.DigicorePathDependentNetworkReader_v2;
-import org.matsim.up.freight.algorithms.complexNetwork.PathDependentNetwork;
+import org.matsim.up.freight.algorithms.complexNetworks.DigicorePathDependentNetworkReader_v2;
+import org.matsim.up.freight.algorithms.complexNetworks.PathDependentNetwork;
 import org.matsim.up.utils.Header;
 
 import java.util.ArrayList;

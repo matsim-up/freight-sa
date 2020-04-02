@@ -36,7 +36,6 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.core.utils.io.IOUtils;
 import org.matsim.facilities.ActivityFacility;
 import org.matsim.testcases.MatsimTestUtils;
-import org.matsim.up.freight.algorithms.complexNetwork.DigicoreNetworkWriter;
 import org.matsim.up.freight.containers.DigicoreActivity;
 import org.matsim.up.freight.containers.DigicoreNetwork;
 

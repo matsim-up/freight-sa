@@ -103,75 +103,56 @@
     </distributionManagement>
 
     <build>
-        <extensions>
-            <extension>
-                <groupId>io.packagecloud.maven.wagon</groupId>
-                <artifactId>maven-packagecloud-wagon</artifactId>
-                <version>0.0.6</version>
-            </extension>
-        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>2.3.2</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <showWarnings>false</showWarnings>
+                    <showDeprecation>false</showDeprecation>
                     <encoding>UTF-8</encoding>
+                    <!-- configure initial and maximal memory for compiling -->
+                    <fork>true</fork>
+                    <meminitial>128m</meminitial>
+                    <maxmem>512m</maxmem>
+                    <compilerArguments>
+                        <Xmaxwarns>4000</Xmaxwarns>
+                        <Xmaxerrs>100</Xmaxerrs>
+                    </compilerArguments>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.19.1</version>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.2</version>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
+                            <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <outputFile>${project.basedir}/${project.build.finalName}.jar</outputFile>
+                            <transformers>
+                                <!-- This bit sets the main class for the executable jar as you otherwise would with the assembly plugin -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>org.matsim.gui.MATSimGUI</Main-Class>
+                                        <Specification-Vendor>org.matsim</Specification-Vendor>
+                                        <Implementation-Vendor>org.matsim</Implementation-Vendor>
+                                        <Implementation-Version>${project.version}</Implementation-Version>
+                                    </manifestEntries>
+                                </transformer>
+                                <!-- This bit merges the various GeoTools META-INF/services files         -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <defaultGoal>assembly:assembly</defaultGoal>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <artifactId>maven-assembly-plugin</artifactId>
-                            <configuration>
-                                <descriptors>
-                                    <descriptor>src/main/assembly/assembly-release.xml</descriptor>
-                                </descriptors>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <artifactId>maven-jar-plugin</artifactId>
-                            <configuration>
-                                <archive>
-                                    <manifest>
-                                        <addClasspath>true</addClasspath>
-                                        <classpathPrefix>libs/</classpathPrefix>
-                                    </manifest>
-                                </archive>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-    </profiles>
-
 </project>

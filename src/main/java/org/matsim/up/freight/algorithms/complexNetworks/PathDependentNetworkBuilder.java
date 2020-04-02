@@ -20,7 +20,7 @@
 /**
  * 
  */
-package org.matsim.up.freight.algorithms.complexNetwork;
+package org.matsim.up.freight.algorithms.complexNetworks;
 
 import org.apache.log4j.Logger;
 import org.matsim.core.gbl.MatsimRandom;

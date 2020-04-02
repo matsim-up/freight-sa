@@ -1,6 +1,6 @@
 /* *********************************************************************** *
  * project: org.matsim.*
- * DigicoreNodeCoordinateTransformer.java
+ * DigicoreEdgeWeightTransformer.java
  *                                                                         *
  * *********************************************************************** *
  *                                                                         *
@@ -18,28 +18,29 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.algorithms.complexNetwork;
+package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.util.Map;
 
-import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.facilities.ActivityFacility;
 
 import com.google.common.base.Function;
 
-public class DigicoreNodeCoordinateTransformer implements Function<Id<ActivityFacility>, String> {
-	private Map<Id<ActivityFacility>, Coord> map;
+import edu.uci.ics.jung.graph.util.Pair;
+
+public class DigicoreEdgeWeightTransformer implements Function<Pair<Id<ActivityFacility>>, String> {
+	private final Map<Pair<Id<ActivityFacility>>, Integer> map;
 	
-	public DigicoreNodeCoordinateTransformer(Map<Id<ActivityFacility>, Coord> coordinateMap) {
-		this.map = coordinateMap;
+	public DigicoreEdgeWeightTransformer(Map<Pair<Id<ActivityFacility>>, Integer> map) {
+		this.map = map;
 	}
+
 
 	@Override
-	public String apply(Id<ActivityFacility> facilityId) {
-		return String.format("[%.2f ; %.2f]", map.get(facilityId).getX(), map.get(facilityId).getY());
+	public String apply(Pair<Id<ActivityFacility>> pair) {
+		return map.get(pair).toString();
 	}
-
 
 }
 

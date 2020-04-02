@@ -21,7 +21,7 @@
 /**
  * 
  */
-package org.matsim.up.freight.algorithms.complexNetwork;
+package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -42,7 +42,7 @@ import org.matsim.core.utils.geometry.CoordinateTransformation;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.matsim.core.utils.io.IOUtils;
 import org.matsim.core.utils.misc.Counter;
-import org.matsim.up.freight.algorithms.complexNetwork.PathDependentNetwork.PathDependentNode;
+import org.matsim.up.freight.algorithms.complexNetworks.PathDependentNetwork.PathDependentNode;
 
 
 /**

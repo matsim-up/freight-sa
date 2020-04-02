@@ -17,7 +17,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.algorithms.complexNetwork;
+package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.io.File;
 import java.io.IOException;

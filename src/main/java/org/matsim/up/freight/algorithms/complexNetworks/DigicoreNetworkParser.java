@@ -18,7 +18,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.algorithms.complexNetwork;
+package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.io.BufferedReader;
 import java.io.IOException;

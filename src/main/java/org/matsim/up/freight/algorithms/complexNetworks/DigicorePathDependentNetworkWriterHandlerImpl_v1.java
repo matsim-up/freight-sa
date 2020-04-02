@@ -18,7 +18,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.algorithms.complexNetwork;
+package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import java.util.Map;
 
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Node;
-import org.matsim.up.freight.algorithms.complexNetwork.PathDependentNetwork.PathDependentNode;
+import org.matsim.up.freight.algorithms.complexNetworks.PathDependentNetwork.PathDependentNode;
 
 public class DigicorePathDependentNetworkWriterHandlerImpl_v1 implements
 		DigicorePathDependentNetworkWriterHandler {

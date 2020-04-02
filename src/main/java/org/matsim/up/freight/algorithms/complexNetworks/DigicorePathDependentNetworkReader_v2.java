@@ -17,7 +17,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.algorithms.complexNetwork;
+package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.util.Stack;
 
@@ -28,11 +28,12 @@ import org.matsim.core.utils.io.MatsimXmlParser;
 import org.matsim.core.utils.misc.Counter;
 import org.xml.sax.Attributes;
 
-public class DigicorePathDependentNetworkReader_v1 extends MatsimXmlParser {
+public class DigicorePathDependentNetworkReader_v2 extends MatsimXmlParser {
 	private final static String NETWORK = "digicoreNetwork";
 	private final static String NODE = "node";
 	private final static String PRECEDING = "preceding";
 	private final static String FOLLOWING = "following";
+	private final static String STARTNODE = "startnode";
 	
 	/* Attributes. */
 	private final static String ATTR_DESCR = "desc";
@@ -42,6 +43,9 @@ public class DigicorePathDependentNetworkReader_v1 extends MatsimXmlParser {
 	private final static String ATTR_PRECEDING_ID = "id";
 	private final static String ATTR_FOLLOWING_ID = "id";
 	private final static String ATTR_WEIGHT = "weight";
+	private final static String ATTR_STARTHOUR = "hour";
+	private final static String ATTR_STARTACTIVITIES = "activities";
+	private final static String ATTR_STARTCOUNT = "count";
 	
 	private PathDependentNetwork network = null;
 	
@@ -57,13 +61,13 @@ public class DigicorePathDependentNetworkReader_v1 extends MatsimXmlParser {
 	 */
 	public static void main(String[] args){
 		String input = args[0];
-		DigicorePathDependentNetworkReader_v1 nr = new DigicorePathDependentNetworkReader_v1();
+		DigicorePathDependentNetworkReader_v2 nr = new DigicorePathDependentNetworkReader_v2();
 		nr.readFile(input);
 		nr.network.writeNetworkStatisticsToConsole();
 	}
 	
 	
-	public DigicorePathDependentNetworkReader_v1() {
+	public DigicorePathDependentNetworkReader_v2() {
 
 	}
 	
@@ -91,6 +95,11 @@ public class DigicorePathDependentNetworkReader_v1 extends MatsimXmlParser {
 			Id<Node> nextId = Id.create(atts.getValue(ATTR_FOLLOWING_ID), Node.class);
 			double weight = Double.parseDouble(atts.getValue(ATTR_WEIGHT));
 			this.network.setPathDependentEdgeWeight(currentPrecedingId, currentNodeId, nextId, weight);
+		} else if (STARTNODE.equals(name)){
+			String hour = atts.getValue(ATTR_STARTHOUR);
+			String activities = atts.getValue(ATTR_STARTACTIVITIES);
+			int count = Integer.parseInt(atts.getValue(ATTR_STARTCOUNT));
+			this.network.getPathDependentNode(currentNodeId).getStartNodeMap().put(hour + "," + activities, count);
 		} else{
 			throw new RuntimeException(this + "[tag=" + name + " not known or supported]");
 		}
@@ -108,6 +117,8 @@ public class DigicorePathDependentNetworkReader_v1 extends MatsimXmlParser {
 			currentPrecedingId = null;
 		} else if (FOLLOWING.equals(name)){
 			/* Do nothing. */
+		} else if (STARTNODE.equals(name)){
+			/* Do nothing. */
 		} else{
 			throw new RuntimeException(this + "[tag=" + name + " not known or supported]");
 		}
@@ -116,8 +127,9 @@ public class DigicorePathDependentNetworkReader_v1 extends MatsimXmlParser {
 	@Override
 	protected void setDoctype(final String doctype) {
 		super.setDoctype(doctype);
-		// Currently the only version is v1
+		// Currently checks for version v1 & v2.
 		if ("digicorePathDependentNetwork_v1.dtd".equals(doctype)) {
+		} else if ("digicorePathDependentNetwork_v2.dtd".equals(doctype)){
 		} else {
 			throw new IllegalArgumentException("Doctype \"" + doctype + "\" not known.");
 		}

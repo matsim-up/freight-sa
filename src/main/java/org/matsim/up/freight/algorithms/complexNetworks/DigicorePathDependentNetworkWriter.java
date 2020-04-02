@@ -18,7 +18,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.algorithms.complexNetwork;
+package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.io.IOException;
 import java.util.Map;
@@ -29,7 +29,7 @@ import org.matsim.api.core.v01.network.Node;
 import org.matsim.core.api.internal.MatsimWriter;
 import org.matsim.core.utils.io.MatsimXmlWriter;
 import org.matsim.core.utils.io.UncheckedIOException;
-import org.matsim.up.freight.algorithms.complexNetwork.PathDependentNetwork.PathDependentNode;
+import org.matsim.up.freight.algorithms.complexNetworks.PathDependentNetwork.PathDependentNode;
 
 public class DigicorePathDependentNetworkWriter extends MatsimXmlWriter implements MatsimWriter{
 	private final static Logger LOG = Logger.getLogger(DigicorePathDependentNetworkWriter.class);

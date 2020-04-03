@@ -22,6 +22,7 @@ import org.locationtech.jts.geom.*;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.core.utils.collections.QuadTree;
+import org.matsim.core.utils.geometry.CoordUtils;
 import org.matsim.core.utils.gis.ShapeFileReader;
 import org.matsim.core.utils.misc.Counter;
 import org.matsim.facilities.ActivityFacility;
@@ -62,6 +63,7 @@ public class GapAggregator {
 			LOG.error("   3. Output DigicoreVehicles file.");
 			throw new IllegalArgumentException("Terminating.");
 		}
+		run(args);
 	}
 
 	public static void run(String[] args){
@@ -155,6 +157,11 @@ public class GapAggregator {
 							if(thisGeometry.covers(p)){
 								found = true;
 								activity.setFacilityId(Id.create(thisGeometryId.toString(), ActivityFacility.class));
+
+								/* Update the coordinate to the GAP zones's envelope centroid. */
+								Point centroidP = thisGeometry.getEnvelope().getCentroid();
+								Coord centroidC = CoordUtils.createCoord(centroidP.getX(), centroidP.getY());
+								activity.setCoord(centroidC);
 							}
 						}
 					}

@@ -15,9 +15,9 @@ import java.util.List;
 
 
 public class DigicoreVehicle implements Vehicle {
-	private Id<Vehicle> id;
+	private final Id<Vehicle> id;
 	private VehicleType type = VehicleUtils.createVehicleType(Id.create("commercial", VehicleType.class));
-	private List<DigicoreChain> chains = new ArrayList<>();
+	private final List<DigicoreChain> chains = new ArrayList<>();
 	
 	public DigicoreVehicle(final Id<Vehicle> id) {
 		this.id = id;

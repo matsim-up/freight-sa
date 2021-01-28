@@ -3,7 +3,7 @@
 
 
 # freight-sa
-Code that deals with the extraction, modelling and analyses of commercial vehicle activity chains. This project, in turn, depends on [matsim-up](https://github.com/matsim-up/matsim-up). Continuous integration (CI) is done on [Travis-CI](https://travis-ci.com/matsim-up/freight-sa) and (snapshot) jars are deployed to [packagecloud](https://packagecloud.io/matsim-up/freight-sa).
+Code that deals with the extraction, modelling and analyses of commercial vehicle activity chains. This project, in turn, depends on [`matsim-up`](https://github.com/matsim-up/matsim-up). Continuous integration (CI) is done on [Travis-CI](https://travis-ci.com/matsim-up/freight-sa) and (snapshot) jars are deployed to [packagecloud](https://packagecloud.io/matsim-up/freight-sa).
 
 ## Usage
 
@@ -30,4 +30,4 @@ and the depency on `freight-sa`
 </dependencies>
 ```
 where the version is indicative of the specific [`matsim`](https://github.com/matsim-org/matsim-libs) 
-and [matsim-up`](https://github.com/matsim-up/matsim-up) versions that this repository is compatible with. 
+and [`matsim-up`](https://github.com/matsim-up/matsim-up) versions that this repository is compatible with. 

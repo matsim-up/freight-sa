@@ -24,6 +24,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import org.matsim.up.freight.containers.*;
 
@@ -81,8 +82,8 @@ public class DigicoreVehiclesWriterHandlerImpl_v2 implements
 		out.write(" type=\"" + activity.getType() + "\"\n");
 		out.write("\t\t\t\tstart=\"" + getDateString(activity.getStartTimeGregorianCalendar()) + "\"");
 		out.write(" end=\"" + getDateString(activity.getEndTimeGregorianCalendar()) + "\"\n");
-		out.write("\t\t\t\tx=\"" + String.format("%.2f", activity.getCoord().getX()) + "\"");
-		out.write(" y=\"" + String.format("%.2f", activity.getCoord().getY()) + "\"");
+		out.write("\t\t\t\tx=\"" + String.format(Locale.US, "%.2f", activity.getCoord().getX()) + "\"");
+		out.write(" y=\"" + String.format(Locale.US, "%.2f", activity.getCoord().getY()) + "\"");
 		if(activity.getFacilityId() != null){
 			out.write(" facility=\"" + activity.getFacilityId().toString() + "\"");
 		}
@@ -116,10 +117,10 @@ public class DigicoreVehiclesWriterHandlerImpl_v2 implements
 	public void startPosition(DigicorePosition pos, BufferedWriter out) throws IOException {
 		out.write("\t\t\t\t<position");
 		out.write(" time=\"" + getDateString(pos.getTimeAsGregorianCalendar()) + "\"");
-		out.write(" x=\"" + String.format("%.6f", pos.getCoord().getX()) + "\"");
-		out.write(" y=\"" + String.format("%.6f", pos.getCoord().getY()) + "\"");
+		out.write(" x=\"" + String.format(Locale.US, "%.6f", pos.getCoord().getX()) + "\"");
+		out.write(" y=\"" + String.format(Locale.US, "%.6f", pos.getCoord().getY()) + "\"");
 		if(pos.getCoord().hasZ()){
-			out.write(" z=\"" + String.format("%.1f", pos.getCoord().getZ()) + "\"");
+			out.write(" z=\"" + String.format(Locale.US, "%.1f", pos.getCoord().getZ()) + "\"");
 		}
 	}
 
@@ -138,7 +139,7 @@ public class DigicoreVehiclesWriterHandlerImpl_v2 implements
 		int minute = cal.get(Calendar.MINUTE);
 		int second = cal.get(Calendar.SECOND);
 		
-		s = String.format("%04d%02d%02d %02d:%02d:%02d", 
+		s = String.format(Locale.US, "%04d%02d%02d %02d:%02d:%02d",
 				year, month, day, hour, minute, second);
 		
 		return s;

@@ -252,7 +252,7 @@ public class BootstrapPopulationGenerator {
 		Activity a1 = pf.createActivityFromCoord(firstMajor.getType(), firstMajor.getCoord());
 		/* Determine number of days (24-hours) to deduct from time stamp. */
 		int daysToDeduct = 0;
-		double endTime = firstMajor.getEndTime();
+		double endTime = firstMajor.getEndTime().seconds();
 		while(endTime > 24*60*60){
 			endTime -= 24*60*60;
 			daysToDeduct++;
@@ -286,7 +286,7 @@ public class BootstrapPopulationGenerator {
 	
 		DigicoreActivity lastMajor = chain.getLastMajorActivity();
 		Activity a2 = pf.createActivityFromCoord(lastMajor.getType(), lastMajor.getCoord());
-		a2.setStartTime(lastMajor.getStartTime()-(daysToDeduct*24*60*60));
+		a2.setStartTime(lastMajor.getStartTime().seconds()-(daysToDeduct*24*60*60));
 		/* Add the facilityId if available. */
 		if(lastMajor.getFacilityId() != null){
 			((Activity)a2).setFacilityId(lastMajor.getFacilityId());

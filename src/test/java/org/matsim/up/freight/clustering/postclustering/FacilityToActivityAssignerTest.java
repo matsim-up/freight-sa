@@ -19,13 +19,6 @@
 
 package org.matsim.up.freight.clustering.postclustering;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,15 +32,17 @@ import org.matsim.core.utils.collections.QuadTree;
 import org.matsim.facilities.*;
 import org.matsim.testcases.MatsimTestUtils;
 import org.matsim.up.freight.clustering.HullConverter;
-import org.matsim.up.freight.clustering.postclustering.FacilityToActivityAssigner;
-import org.matsim.up.freight.containers.DigicoreActivity;
-import org.matsim.up.freight.containers.DigicoreChain;
-import org.matsim.up.freight.containers.DigicoreFacility;
-import org.matsim.up.freight.containers.DigicoreVehicle;
-import org.matsim.up.freight.containers.DigicoreVehicles;
+import org.matsim.up.freight.containers.*;
 import org.matsim.up.freight.io.DigicoreVehiclesWriter;
 import org.matsim.utils.objectattributes.AttributeConverter;
 import org.matsim.vehicles.Vehicle;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
 
 
 /**

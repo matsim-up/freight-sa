@@ -22,6 +22,7 @@ package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -34,7 +35,7 @@ public class DigicorePathDependentNetworkWriterHandlerImpl_v2 implements
 		DigicorePathDependentNetworkWriterHandler {
 
 	@Override
-	public void writeSeparator(BufferedWriter out) throws IOException {
+	public void writeSeparator(BufferedWriter out) {
 		/* Don't think a separator will make the file more readable. */
 	}
 	
@@ -58,7 +59,7 @@ public class DigicorePathDependentNetworkWriterHandlerImpl_v2 implements
 			throws IOException {
 		out.write("\t<node");
 		out.write(" id=\"" + node.getId().toString() + "\"");
-		out.write(String.format(" x=\"%.2f\" y=\"%.2f\">\n",
+		out.write(String.format(Locale.US, " x=\"%.2f\" y=\"%.2f\">\n",
 				node.getCoord().getX(), 
 				node.getCoord().getY() ) );
 	}
@@ -86,7 +87,7 @@ public class DigicorePathDependentNetworkWriterHandlerImpl_v2 implements
 		for(Id<Node> id : following.keySet()){
 			out.write("\t\t\t<following");
 			out.write(" id=\"" + id.toString() + "\"");
-			out.write(" weight=\"" + String.format("%.2f", following.get(id)));
+			out.write(" weight=\"" + String.format(Locale.US, "%.2f", following.get(id)));
 			out.write("\"/>\n");
 		}
 	}
@@ -107,7 +108,7 @@ public class DigicorePathDependentNetworkWriterHandlerImpl_v2 implements
 			Integer activities = Integer.parseInt(sa[1]);
 			Integer count = startNode.get(s);
 			if(!map.containsKey(hour)){
-				map.put(hour, new TreeMap<Integer, Integer>());
+				map.put(hour, new TreeMap<>());
 			}
 			Map<Integer, Integer> hourMap = map.get(hour);
 			hourMap.put(activities, count);
@@ -117,9 +118,9 @@ public class DigicorePathDependentNetworkWriterHandlerImpl_v2 implements
 		for(Integer hour : map.keySet()){
 			for(Integer activities : map.get(hour).keySet()){
 				out.write("\t\t<startnode");
-				out.write(" hour=\"" + String.valueOf(hour) + "\"");
-				out.write(" activities=\"" + String.valueOf(activities) + "\"");
-				out.write(" count=\"" + String.valueOf(map.get(hour).get(activities)) + "\"/>\n");
+				out.write(" hour=\"" + hour + "\"");
+				out.write(" activities=\"" + activities + "\"");
+				out.write(" count=\"" + map.get(hour).get(activities) + "\"/>\n");
 			}
 		}
 	}

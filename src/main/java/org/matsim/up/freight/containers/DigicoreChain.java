@@ -26,7 +26,7 @@ public class DigicoreChain extends ArrayList<DigicoreChainElement>{
 	 * @return duration (in seconds).
 	 */
 	public double getDuration(){
-		return this.getLastMajorActivity().getStartTime() - this.getFirstMajorActivity().getEndTime();
+		return this.getLastMajorActivity().getStartTime().seconds() - this.getFirstMajorActivity().getEndTime().seconds();
 	}
 	
 	

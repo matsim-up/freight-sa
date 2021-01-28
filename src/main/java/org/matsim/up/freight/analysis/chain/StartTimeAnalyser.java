@@ -76,7 +76,7 @@ public class StartTimeAnalyser {
 					bw.write(",");
 					bw.write( String.format("%.0f", chain.getDistance() ) );
 					bw.write(",");
-					bw.write(String.format("%.0f", chain.getLastMajorActivity().getStartTime() - chain.getFirstMajorActivity().getEndTime() ) );
+					bw.write(String.format("%.0f", chain.getLastMajorActivity().getStartTime().seconds() - chain.getFirstMajorActivity().getEndTime().seconds() ) );
 					bw.newLine();
 				}
 				counter.incCounter();

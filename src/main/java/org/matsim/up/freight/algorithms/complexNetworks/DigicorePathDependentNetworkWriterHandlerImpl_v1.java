@@ -22,6 +22,7 @@ package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 import org.matsim.api.core.v01.Id;
@@ -57,7 +58,7 @@ public class DigicorePathDependentNetworkWriterHandlerImpl_v1 implements
 			throws IOException {
 		out.write("\t<node");
 		out.write(" id=\"" + node.getId().toString() + "\"");
-		out.write(String.format(" x=\"%.2f\" y=\"%.2f\">\n",node.getCoord().getX(), node.getCoord().getY() ) );
+		out.write(String.format(Locale.US, " x=\"%.2f\" y=\"%.2f\">\n",node.getCoord().getX(), node.getCoord().getY() ) );
 	}
 
 	@Override
@@ -83,7 +84,7 @@ public class DigicorePathDependentNetworkWriterHandlerImpl_v1 implements
 		for(Id<Node> id : following.keySet()){
 			out.write("\t\t\t<following");
 			out.write(" id=\"" + id.toString() + "\"");
-			out.write(" weight=\"" + String.format("%.2f", following.get(id)));
+			out.write(" weight=\"" + String.format(Locale.US, "%.2f", following.get(id)));
 			out.write("\"/>\n");
 		}
 	}

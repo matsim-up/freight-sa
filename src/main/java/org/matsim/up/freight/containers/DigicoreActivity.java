@@ -13,6 +13,7 @@ import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.population.Activity;
+import org.matsim.core.utils.misc.OptionalTime;
 import org.matsim.facilities.ActivityFacility;
 
 import org.matsim.utils.objectattributes.attributable.Attributes;
@@ -81,7 +82,7 @@ public class DigicoreActivity implements Activity, DigicoreChainElement {
 	 * @return duration (in sec).
 	 */
 	public double getDuration(){
-		return this.getEndTime() - this.getStartTime();
+		return this.getEndTime().seconds() - this.getStartTime().seconds();
 	}
 
 	@Override
@@ -90,8 +91,20 @@ public class DigicoreActivity implements Activity, DigicoreChainElement {
 	}
 
 	@Override
+	public void setStartTimeUndefined() {
+		/*FIXME Not sure how to deal with undefined start times, Jan'21. */
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public void setEndTime(double seconds) {
 		endTime.setTimeInMillis(Math.round(seconds * 1000.0));		
+	}
+
+	@Override
+	public void setEndTimeUndefined() {
+		/*FIXME Not sure how to deal with undefined end times, Jan'21. */
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -119,19 +132,19 @@ public class DigicoreActivity implements Activity, DigicoreChainElement {
 	}
 
 	@Override
-	public double getEndTime() {
-		return (double)this.endTime.getTimeInMillis() / 1000.0;
+	public OptionalTime getEndTime() {
+		return OptionalTime.defined((double)this.endTime.getTimeInMillis() / 1000.0);
 	}
 
 	@Override
-	public double getStartTime() {
-		return (double)this.startTime.getTimeInMillis() / 1000.0;
+	public OptionalTime getStartTime() {
+		return OptionalTime.defined((double)this.startTime.getTimeInMillis() / 1000.0);
 	}
 	
 
 	@Override
-	public double getMaximumDuration() {
-		return this.maximumDuration;
+	public OptionalTime getMaximumDuration() {
+		return OptionalTime.defined(this.maximumDuration);
 	}
 
 
@@ -139,8 +152,14 @@ public class DigicoreActivity implements Activity, DigicoreChainElement {
 	public void setMaximumDuration(double seconds) {
 		this.maximumDuration = seconds;
 	}
-	
-	
+
+	@Override
+	public void setMaximumDurationUndefined() {
+		/*FIXME Not sure how to deal with undefined durations, Jan'21. */
+		throw new UnsupportedOperationException();
+	}
+
+
 	/**
 	 * Returns the number of seconds since midnight. This method does
 	 * <b>not</b> consider the position of the activity in the activity

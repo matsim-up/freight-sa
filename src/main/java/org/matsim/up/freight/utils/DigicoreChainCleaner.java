@@ -33,11 +33,7 @@ import java.util.concurrent.Future;
 import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Id;
 import org.matsim.core.utils.misc.Counter;
-import org.matsim.up.freight.containers.DigicoreActivity;
-import org.matsim.up.freight.containers.DigicoreChain;
-import org.matsim.up.freight.containers.DigicoreChainElement;
-import org.matsim.up.freight.containers.DigicoreVehicle;
-import org.matsim.up.freight.containers.DigicoreVehicles;
+import org.matsim.up.freight.containers.*;
 import org.matsim.up.freight.io.DigicoreVehiclesReader;
 import org.matsim.up.freight.io.DigicoreVehiclesWriter;
 import org.matsim.up.utils.Header;
@@ -51,10 +47,9 @@ import org.matsim.up.utils.Header;
  * {@link DigicoreVehicles} container.
  * 
  * <br><br><b>Note:</b> Vehicle activities will only be associated with facilities
- * if the class {@link ClusteredChainGenerator} has been executed. That is, this
- * class must be run on the output vehicles container which, in turn, is 
- * produced by the class {@link ClusteredChainGenerator}.
- * 
+ * if activities were clustered using an implementation of the
+ * {@link org.matsim.up.freight.clustering.DJCluster} class.
+ *
  * @author jwjoubert
  */
 public class DigicoreChainCleaner {
@@ -167,7 +162,7 @@ public class DigicoreChainCleaner {
 
 		/**
 		 * This method has been revised in January 2017 to also account for 
-		 * the {@link DigicoreTrace}s that are between two consecutive 
+		 * the {@link DigicoreTrace}s that are between two consecutive
 		 * {@link DigicoreActivity}s.
 		 * 
 		 * @param chain
@@ -192,7 +187,7 @@ public class DigicoreChainCleaner {
 						thisActivity.getFacilityId().toString().equalsIgnoreCase(nextActivity.getFacilityId().toString()) ){
 					/* Merge the two activities. */
 					numberOfActivitiesChanged++;
-					thisActivity.setEndTime( nextActivity.getEndTime() );
+					thisActivity.setEndTime( nextActivity.getEndTime().seconds() );
 					chain.remove( activityIndex + 1 ); /* Remove the trace. */
 					chain.remove( activityIndex + 1 ); /* Remove the subsequent activity. */
 					
@@ -222,11 +217,11 @@ public class DigicoreChainCleaner {
 				
 				/* Get the maximum extent. */
 				double earliestStart = Math.min(
-						thisLastMajor.getStartTime(), 
-						nextFirstMajor.getStartTime());
+						thisLastMajor.getStartTime().seconds(),
+						nextFirstMajor.getStartTime().seconds());
 				double latestEnd = Math.min(
-						thisLastMajor.getEndTime(),
-						nextFirstMajor.getEndTime());
+						thisLastMajor.getEndTime().seconds(),
+						nextFirstMajor.getEndTime().seconds());
 				
 				/* Adjust the timing. */
 				thisLastMajor.setStartTime(earliestStart);

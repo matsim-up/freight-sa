@@ -23,6 +23,7 @@ package org.matsim.up.freight.algorithms.complexNetworks;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Coord;
@@ -103,7 +104,7 @@ public class DigicoreNetworkWriter {
 		for(Id<ActivityFacility> id : network.getVertices()){
 			bw.write(id.toString());
 			bw.write(",");
-			bw.write(String.format("%.4f,%.4f\n", network.getCoordinates().get(id).getX(), network.getCoordinates().get(id).getY()));
+			bw.write(String.format(Locale.US, "%.4f,%.4f\n", network.getCoordinates().get(id).getX(), network.getCoordinates().get(id).getY()));
 			nodeCounter.incCounter();
 		}
 		nodeCounter.printCounter();
@@ -191,7 +192,7 @@ public class DigicoreNetworkWriter {
 				if(c == null){
 					log.warn("Null Coord found.");
 				}
-				bw.write(String.format("%.2f,%.2f,", network.getCoordinates().get(id).getX(), network.getCoordinates().get(id).getY()));
+				bw.write(String.format(Locale.US, "%.2f,%.2f,", network.getCoordinates().get(id).getX(), network.getCoordinates().get(id).getY()));
 				
 				/* Get the total weighted in-degree. */
 				int in = 0;

@@ -64,12 +64,12 @@ public class DigicoreVehicleReaderTest {
 		assertTrue("Wrong activity type.", "minor".equalsIgnoreCase(v2.getChains().get(0).getAllActivities().get(1).getType()));
 		assertTrue("Wrong coordinate.", v2.getChains().get(0).getAllActivities().get(1).getCoord().equals(new Coord((double) 5, (double) 5)));
 		assertEquals("Wrong start time.", 
-				v1.getChains().get(0).getAllActivities().get(1).getStartTime(), 
-				v2.getChains().get(0).getAllActivities().get(1).getStartTime(),
+				v1.getChains().get(0).getAllActivities().get(1).getStartTime().seconds(),
+				v2.getChains().get(0).getAllActivities().get(1).getStartTime().seconds(),
 				MatsimTestUtils.EPSILON);
 		assertEquals("Wrong end time.", 
-				v1.getChains().get(0).getAllActivities().get(1).getEndTime(), 
-				v2.getChains().get(0).getAllActivities().get(1).getEndTime(),
+				v1.getChains().get(0).getAllActivities().get(1).getEndTime().seconds(),
+				v2.getChains().get(0).getAllActivities().get(1).getEndTime().seconds(),
 				MatsimTestUtils.EPSILON);
 	}
 	

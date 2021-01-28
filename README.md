@@ -25,9 +25,9 @@ and the depency on `freight-sa`
 	<dependency>
   		<groupId>org.matsim.up.freight</groupId>
   		<artifactId>freight-sa</artifactId>
-  		<version>12.0-2020w01-SNAPSHOT</version>
+  		<version>13.0-2021w03-SNAPSHOT</version>
 	</dependency>
 </dependencies>
 ```
 where the version is indicative of the specific [`matsim`](https://github.com/matsim-org/matsim-libs) 
-version that this repository is compatible with. 
+and [matsim-up`](https://github.com/matsim-up/matsim-up) versions that this repository is compatible with. 

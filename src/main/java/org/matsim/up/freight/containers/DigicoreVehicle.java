@@ -6,6 +6,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.matsim.api.core.v01.Id;
+import org.matsim.utils.objectattributes.attributable.Attributes;
 import org.matsim.vehicles.Vehicle;
 import org.matsim.vehicles.VehicleType;
 import org.matsim.vehicles.VehicleUtils;
@@ -18,6 +19,7 @@ public class DigicoreVehicle implements Vehicle {
 	private final Id<Vehicle> id;
 	private VehicleType type = VehicleUtils.createVehicleType(Id.create("commercial", VehicleType.class));
 	private final List<DigicoreChain> chains = new ArrayList<>();
+	private final Attributes attributes = new Attributes();
 	
 	public DigicoreVehicle(final Id<Vehicle> id) {
 		this.id = id;
@@ -99,5 +101,10 @@ public class DigicoreVehicle implements Vehicle {
 		}
 				
 		return vehicleType;
+	}
+
+	@Override
+	public Attributes getAttributes() {
+		return this.attributes;
 	}
 }

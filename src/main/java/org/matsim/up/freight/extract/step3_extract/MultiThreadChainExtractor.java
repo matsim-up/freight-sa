@@ -92,11 +92,12 @@ public class MultiThreadChainExtractor {
 		log.info("-------------------------------------------------------------------------------");
 		
 		/* Read the ignition-ON and -OFF statuses from file */
-		DigicoreStatusReader dsr = null;
+		DigicoreStatusReader dsr;
 		try {
 			dsr = new DigicoreStatusReader(statusFilename);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			throw new RuntimeException("Cannot parse the ignition signal statuses.");
 		}
 		
 		/* Set up counter. */
@@ -118,6 +119,7 @@ public class MultiThreadChainExtractor {
 		}
 		extractorExecutor.threadExecutor.shutdown();
 		while(!extractorExecutor.threadExecutor.isTerminated()){
+			/* Do nothing. */
 		}
 		threadCounter.printCounter();
 		Header.printFooter();

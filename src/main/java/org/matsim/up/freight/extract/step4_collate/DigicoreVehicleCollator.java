@@ -18,9 +18,6 @@
  *                                                                         *
  * *********************************************************************** */
 
-/**
- * 
- */
 package org.matsim.up.freight.extract.step4_collate;
 
 import java.io.File;
@@ -110,9 +107,9 @@ public class DigicoreVehicleCollator {
 	 * them into a single {@link DigicoreVehicles} container, which is written
 	 * to file in the end.
 	 * 
-	 * @param inputFolder
-	 * @param outputFile
-	 * @param crs
+	 * @param inputFolder where individual vehicles are found;
+	 * @param outputFile of the collated vehicles; and
+	 * @param crs the coordinate reference system to be used.
 	 */
 	private static void collate(String inputFolder, String outputFile, String crs, String descr){
 		LOG.info("Collating the Digicore vehicle files in folder " + inputFolder);
@@ -121,13 +118,12 @@ public class DigicoreVehicleCollator {
 		
 		/* Parse the individual vehicle files. */
 		List<File> files = FileUtils.sampleFiles(new File(inputFolder), Integer.MAX_VALUE, FileUtils.getFileFilter(".xml.gz"));
-		DigicoreVehicleReader dvr = null; 
+		DigicoreVehicleReader dvr;
 		for(File file : files){
 			dvr = new DigicoreVehicleReader();
 			dvr.readFile(file.getAbsolutePath());
 			DigicoreVehicle dv = dvr.getVehicle();
 			vehicles.addDigicoreVehicle(dv);
-			dvr = null;
 		}
 		LOG.info("Done collating the file.");
 

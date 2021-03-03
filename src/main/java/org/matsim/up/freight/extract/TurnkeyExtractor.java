@@ -61,7 +61,7 @@ public class TurnkeyExtractor {
     final static String FILENAME_VEHICLES = "digicoreVehicles.xml.gz";
 
     /* Parameters for chain extraction. */
-    static final String DEFAULT_THREADS = "40";
+    static final String DEFAULT_THREADS = "20";
     static final String DEFAULT_MAJOR_THRESHOLD = "18000";
     static final String DEFAULT_MINOR_THRESHOLD = "60";
 

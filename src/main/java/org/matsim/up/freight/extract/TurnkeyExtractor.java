@@ -96,7 +96,7 @@ public class TurnkeyExtractor {
         /* Hide constructor. */
     }
 
-    private static void extract(String inputFile, String outputFolder, String descr, String statusFile) {
+    static void extract(String inputFile, String outputFolder, String descr, String statusFile) {
         LOG.info("Executing the turnkey extraction... this may take some time.");
 
         /* Splitting */
@@ -135,7 +135,17 @@ public class TurnkeyExtractor {
         LOG.info("Done with the turnkey extraction.");
     }
 
-    private static void extractAll(String rawFolder, String processedFolder, String statusFile) {
+    /**
+     * Method meant to be called on the server only, where all the necessary
+     * Digicore files are located togather.
+     *
+     * @param rawFolder folder where all the csv.gz files are;
+     * @param processedFolder folder where all the individual months' data will
+     *                        be written/extracted to; and
+     * @param statusFile the file showing the ignition status (on or off) for
+     *                   different codes in the raw input data.
+     */
+    static void extractAll(String rawFolder, String processedFolder, String statusFile) {
         rawFolder += rawFolder.endsWith("/") ? "" : "/";
         processedFolder += processedFolder.endsWith("/") ? "" : "/";
 

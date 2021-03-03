@@ -20,8 +20,6 @@
 
 package org.matsim.up.freight.extract;
 
-import java.io.File;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,9 +27,10 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.testcases.MatsimTestUtils;
 import org.matsim.up.freight.containers.DigicoreVehicle;
 import org.matsim.up.freight.containers.DigicoreVehicles;
-import org.matsim.up.freight.extract.TurnkeyExtractor;
 import org.matsim.up.freight.io.DigicoreVehiclesReader;
 import org.matsim.vehicles.Vehicle;
+
+import java.io.File;
 
 
 /**
@@ -64,7 +63,7 @@ public class TurnkeyExtractorTest {
 		
 		String[] args = getTestArguments();
 		try{
-			TurnkeyExtractor.main(args);
+			TurnkeyExtractor.extract(args[0], args[1], args[2], args[3]);
 		} catch(Exception e){
 			e.printStackTrace();
 			Assert.fail("Should extract without exceptions.");
@@ -85,23 +84,22 @@ public class TurnkeyExtractorTest {
 		new DigicoreVehiclesReader(vehicles).readFile(utils.getOutputDirectory() + "digicoreVehicles.xml.gz");
 		Id<Vehicle> vid = Id.createVehicleId("14114");
 		Assert.assertTrue("Vehicle 14114 not found.", vehicles.getVehicles().containsKey(vid));
-		Assert.assertEquals("Wrong number of vehicles.", 1l, vehicles.getVehicles().size());
+		Assert.assertEquals("Wrong number of vehicles.", 1L, vehicles.getVehicles().size());
 		
 		/* Check the actual vehicle's activity chains. */
 		DigicoreVehicle vehicle = vehicles.getVehicles().get(vid);
-		Assert.assertEquals("Wrong number of chains.", 5l, vehicle.getChains().size());
+		Assert.assertEquals("Wrong number of chains.", 5L, vehicle.getChains().size());
 		
 	}
 	
 	
 	private String[] getTestArguments(){
-		String[] args = {
+		return new String[]{
 				utils.getClassInputDirectory() + "/test.csv.gz",
 				utils.getOutputDirectory(),
 				"Integration test",
 				utils.getClassInputDirectory() + "/status.csv"
 		};
-		return args;
 	}
 	
 	

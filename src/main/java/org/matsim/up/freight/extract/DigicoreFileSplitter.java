@@ -197,7 +197,7 @@ class DigicoreFileSplitter {
 
                         /* Open the file for the vehicle
                          */
-                        vehicleFile = outputFolder + "Vehicles/" + inputString[fieldVehId] + ".txt";
+                        vehicleFile = outputFolder + ExtractionUtils.FOLDER_VEHICLES + inputString[fieldVehId] + ".txt";
                         output = IOUtils.getAppendingBufferedWriter(vehicleFile);
 
                         // Write the record to the associated file
@@ -277,13 +277,13 @@ class DigicoreFileSplitter {
     }
 
     /**
-     * A method to create a new "Vehicles" folder in the output directory in which the
+     * A method to create a new "vehicles" folder in the output directory in which the
      * individual vehicle files will be written out to.
      *
      * @param outputDirectory the path/directory where the "vehicles" folder should be created
      */
     public void createVehicleFolder(String outputDirectory) {
-        File outputFolder = new File(outputDirectory + "Vehicles/");
+        File outputFolder = new File(outputDirectory + ExtractionUtils.FOLDER_VEHICLES);
         if (outputFolder.exists()) {
             String s = "The folder already exists! Delete " + outputFolder.getPath() + " and rerun.";
             throw new RuntimeException(s);

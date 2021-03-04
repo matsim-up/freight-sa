@@ -49,7 +49,7 @@ class DigicoreFilesSorter {
         Header.printHeader(DigicoreFilesSorter.class, args);
         DigicoreFilesSorter dfs;
         if (args.length != 1) {
-            throw new RuntimeException("Must provide path for `Vehicles' folder.");
+            throw new RuntimeException("Must provide path for `vehicles' folder.");
         } else {
             dfs = new DigicoreFilesSorter(args[0]);
         }

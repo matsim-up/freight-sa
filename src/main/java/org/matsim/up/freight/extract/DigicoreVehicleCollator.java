@@ -50,10 +50,10 @@ class DigicoreVehicleCollator {
 	 * @param args the following arguments are required, and in the following 
 	 * 		  order:
 	 * 		<ol>
-	 * 			<li><code>inputFolder</code> containing the <code>xml/</code>
-	 * 				folder, which has the {@link DigicoreVehicle} files, as well 
-	 * 				as the <code>Vehicles/</code> folder, which contains the 
-	 * 				original GPS records for each individual vehicle.
+	 * 			<li><code>inputFolder</code> containing the XML	folder, which
+	 * 		        has the {@link DigicoreVehicle} files, as well as the
+	 * 		       vehicles folder, which contains the original GPS records for
+	 * 		       each individual vehicle.
 	 * 			<li><code>outputFile</code> to which the {@link DigicoreVehicles}
 	 * 				container will be written. This needs to have an <code>.xml</code>
 	 * 				or <code>.xml.gz</code> extension.
@@ -83,8 +83,8 @@ class DigicoreVehicleCollator {
 			}
 		}
 		
-		String xmlFolder = inputFolder + "xml/";
-		String vehiclesfolder = inputFolder + "Vehicles/";
+		String xmlFolder = inputFolder + ExtractionUtils.FOLDER_XML;
+		String vehiclesfolder = inputFolder + ExtractionUtils.FOLDER_VEHICLES;
 		
 		collate(xmlFolder, outputFile, CRS, descr);
 		

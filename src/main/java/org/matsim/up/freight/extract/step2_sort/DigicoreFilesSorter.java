@@ -68,11 +68,11 @@ public class DigicoreFilesSorter {
         File folder = new File(this.root);
 
         File[] filesSorted = folder.listFiles(FileUtils.getFileFilter(".txt.gz"));
-        assert filesSorted != null;
+//        assert filesSorted != null;
         log.info("Number of files already sorted (*.txt.gz): " + filesSorted.length);
 
         File[] filesUnsorted = folder.listFiles(FileUtils.getFileFilter(".txt"));
-        assert filesUnsorted != null;
+//        assert filesUnsorted != null;
         log.info("Number of files to sort (*.txt)          : " + filesUnsorted.length);
 
         Counter fileCounter = new Counter("   files sorted: ");

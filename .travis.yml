@@ -7,7 +7,7 @@ jdk: openjdk11
 #      - oracle.java8-installer   # https://github.com/travis-ci/travis-ci/issues/3259
 
 script:
-  mvn clean; mvn test -B -Dmaven.test.redirectTestOutputToFile -Dmatsim.preferLocalDtds=true --fail-at-end
+  - mvn test -B -Dmaven.test.redirectTestOutputToFile -Dmatsim.preferLocalDtds=true --fail-at-end
 
 deploy:
   provider: script

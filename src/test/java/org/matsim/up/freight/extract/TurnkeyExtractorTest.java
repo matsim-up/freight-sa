@@ -70,18 +70,18 @@ public class TurnkeyExtractorTest {
 		}
 		
 		/* Check that the output file exist. */
-		File f = new File(utils.getOutputDirectory() + "digicoreVehicles.xml.gz");
+		File f = new File(utils.getOutputDirectory() + ExtractionUtils.FILENAME_VEHICLES);
 		Assert.assertTrue("Vehicles container file should exist.", f.exists());
 		
 		/* Check that the remaining folders DO NOT exist. */
-		File xmlFolder = new File(utils.getOutputDirectory() + "xml/");
+		File xmlFolder = new File(utils.getOutputDirectory() + ExtractionUtils.FOLDER_XML);
 		Assert.assertFalse("Xml directory should not exist.", xmlFolder.exists());
-		File vehiclesFolder = new File(utils.getOutputDirectory() + "Vehicles/");
+		File vehiclesFolder = new File(utils.getOutputDirectory() + ExtractionUtils.FOLDER_VEHICLES);
 		Assert.assertFalse("Vehicles directory should not exist.", vehiclesFolder.exists());
 		
 		/* Check the vehicles container. */
 		DigicoreVehicles vehicles = new DigicoreVehicles();
-		new DigicoreVehiclesReader(vehicles).readFile(utils.getOutputDirectory() + "digicoreVehicles.xml.gz");
+		new DigicoreVehiclesReader(vehicles).readFile(utils.getOutputDirectory() + ExtractionUtils.FILENAME_VEHICLES);
 		Id<Vehicle> vid = Id.createVehicleId("14114");
 		Assert.assertTrue("Vehicle 14114 not found.", vehicles.getVehicles().containsKey(vid));
 		Assert.assertEquals("Wrong number of vehicles.", 1L, vehicles.getVehicles().size());

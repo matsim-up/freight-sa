@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -46,9 +47,9 @@ public class DigicoreVehicleCollatorTest {
 	@Test
 	public void testBuild(){
 		buildTestCase();
-		Assert.assertTrue("Cannot find XML folder.", new File(utils.getOutputDirectory() + "xml/").exists());
-		Assert.assertTrue("Cannot find first vehicle.", new File(utils.getOutputDirectory() + "xml/1.xml.gz").exists());
-		Assert.assertTrue("Cannot find second.", new File(utils.getOutputDirectory() + "xml/2.xml.gz").exists());
+		Assert.assertTrue("Cannot find XML folder.", new File(utils.getOutputDirectory() + ExtractionUtils.FOLDER_XML).exists());
+		Assert.assertTrue("Cannot find first vehicle.", new File(utils.getOutputDirectory() + ExtractionUtils.FOLDER_XML + "1.xml.gz").exists());
+		Assert.assertTrue("Cannot find second.", new File(utils.getOutputDirectory() + ExtractionUtils.FOLDER_XML + "2.xml.gz").exists());
 	}
 	
 	@Test 
@@ -60,9 +61,9 @@ public class DigicoreVehicleCollatorTest {
 		String filename = utils.getOutputDirectory() + "output.xml";
 		String[] args = {folder, filename, "Atlantis", "Test", "false"};
 		DigicoreVehicleCollator.main(args);
-		Assert.assertTrue("XML folder should exist.", new File(utils.getOutputDirectory() + "xml/").exists());
-		Assert.assertTrue("First vehicle should still exist.", new File(utils.getOutputDirectory() + "xml/1.xml.gz").exists());
-		Assert.assertTrue("Second vehicle should still exist.", new File(utils.getOutputDirectory() + "xml/2.xml.gz").exists());
+		Assert.assertTrue("XML folder should exist.", new File(utils.getOutputDirectory() + ExtractionUtils.FOLDER_XML).exists());
+		Assert.assertTrue("First vehicle should still exist.", new File(utils.getOutputDirectory() + ExtractionUtils.FOLDER_XML + "1.xml.gz").exists());
+		Assert.assertTrue("Second vehicle should still exist.", new File(utils.getOutputDirectory() + ExtractionUtils.FOLDER_XML + "2.xml.gz").exists());
 		Assert.assertTrue("Output file should exist.", new File(utils.getOutputDirectory() + "output.xml").exists());
 	}
 	
@@ -76,7 +77,7 @@ public class DigicoreVehicleCollatorTest {
 		String filename = utils.getOutputDirectory() + "output.xml";
 		String[] args = {folder, filename, "Atlantis", "Test", "true"};
 		DigicoreVehicleCollator.main(args);
-		Assert.assertFalse("XML folder should NOT exist.", new File(utils.getOutputDirectory() + "xml/").exists());
+		Assert.assertFalse("XML folder should NOT exist.", new File(utils.getOutputDirectory() + ExtractionUtils.FOLDER_XML).exists());
 		Assert.assertTrue("Output file should exist.", new File(utils.getOutputDirectory() + "output.xml").exists());
 	}
 	
@@ -86,8 +87,11 @@ public class DigicoreVehicleCollatorTest {
 	 */
 	private void buildTestCase(){
 		/* Create the xml folder. */
-		String folder = utils.getOutputDirectory() + "xml/";
-		new File(folder).mkdirs();
+		String folder = utils.getOutputDirectory() + ExtractionUtils.FOLDER_XML;
+		boolean created = new File(folder).mkdirs();
+		if(!created){
+			Logger.getLogger(DigicoreVehicleCollatorTest.class).warn("Could not create output folder for test: " + folder);
+		}
 		
 		/* Create general chain. */
 		Coord coord = CoordUtils.createCoord(0.0, 0.0);

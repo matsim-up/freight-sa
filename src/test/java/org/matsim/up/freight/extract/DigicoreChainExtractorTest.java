@@ -81,14 +81,13 @@ public class DigicoreChainExtractorTest {
 		File inputFile = new File(utils.getClassInputDirectory() + "test.txt");
 		File outputFolder = new File(utils.getOutputDirectory());
 		
-		List<String> ignitionOn = new ArrayList<String>(1);
+		List<String> ignitionOn = new ArrayList<>(1);
 		ignitionOn.add("0");
 		List<String> ignitionOff = new ArrayList<>(1);
 		ignitionOff.add("15");
 
 		Counter threadCounter = new Counter("   test # ");
-		DigicoreChainExtractor dce = new DigicoreChainExtractor(inputFile, outputFolder, 100.0, 10.0, ignitionOn , ignitionOff , null, threadCounter);
-		return dce;
+		return new DigicoreChainExtractor(inputFile, outputFolder, 100.0, 10.0, ignitionOn , ignitionOff , null, threadCounter);
 	}
 
 }

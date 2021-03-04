@@ -39,7 +39,7 @@ import org.matsim.up.utils.Header;
  *
  * @author jwjoubert
  */
-class TurnkeyExtractor {
+public class TurnkeyExtractor {
     final private static Logger LOG = Logger.getLogger(TurnkeyExtractor.class);
     final private static String DEFAULT_INPUT = "/data/digicore/longitudinal/raw/";
     final private static String DEFAULT_OUTPUT = "/data/digicore/longitudinal/processed/";

@@ -161,7 +161,7 @@ public class TurnkeyExtractor {
             File input = new File(String.format(Locale.US, "%s%s.csv.gz", rawFolder, month));
             if(input.exists()){
                 String output = String.format(Locale.US, "%s%s/", processedFolder, month);
-                String description = "One month's activity chains, " + month + ", in Hartebeesthoek94_Lo29_NE";
+                String description = "One month's activity chains " + month + " in Hartebeesthoek94_Lo29_NE";
                 extract(input.getAbsolutePath(), output, description, statusFile);
             }
         }

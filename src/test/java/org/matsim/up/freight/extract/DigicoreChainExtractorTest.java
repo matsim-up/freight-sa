@@ -18,7 +18,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.extract.step3_extract;
+package org.matsim.up.freight.extract;
 
 import static org.junit.Assert.*;
 
@@ -31,7 +31,6 @@ import org.junit.Test;
 import org.matsim.core.utils.misc.Counter;
 import org.matsim.testcases.MatsimTestUtils;
 import org.matsim.up.freight.containers.*;
-import org.matsim.up.freight.extract.step3_extract.DigicoreChainExtractor;
 
 
 public class DigicoreChainExtractorTest {

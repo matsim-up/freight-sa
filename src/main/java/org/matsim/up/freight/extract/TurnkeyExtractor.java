@@ -25,10 +25,6 @@ import java.util.Locale;
 
 import org.apache.log4j.Logger;
 import org.matsim.core.utils.geometry.transformations.TransformationFactory;
-import org.matsim.up.freight.extract.step1_split.DigicoreFileSplitter;
-import org.matsim.up.freight.extract.step2_sort.DigicoreFilesSorter;
-import org.matsim.up.freight.extract.step3_extract.MultiThreadChainExtractor;
-import org.matsim.up.freight.extract.step4_collate.DigicoreVehicleCollator;
 import org.matsim.up.utils.Header;
 
 
@@ -43,7 +39,7 @@ import org.matsim.up.utils.Header;
  *
  * @author jwjoubert
  */
-public class TurnkeyExtractor {
+class TurnkeyExtractor {
     final private static Logger LOG = Logger.getLogger(TurnkeyExtractor.class);
     final private static String DEFAULT_INPUT = "/data/digicore/longitudinal/raw/";
     final private static String DEFAULT_OUTPUT = "/data/digicore/longitudinal/processed/";
@@ -55,10 +51,6 @@ public class TurnkeyExtractor {
     final static int FIELD_SPEED = 3;
     final static int FIELD_IGNITION_SIGNAL = 4;
     final static int FIELD_VEHICLE_ID = 5;
-
-    final static String FOLDER_VEHICLES = "vehicles/";
-    final static String FOLDER_XML = "xml/";
-    final static String FILENAME_VEHICLES = "digicoreVehicles.xml.gz";
 
     /* Parameters for chain extraction. */
     static final String DEFAULT_THREADS = "20";
@@ -110,18 +102,18 @@ public class TurnkeyExtractor {
         DigicoreFileSplitter.main(splitArgs);
 
         /* Sorting */
-        String[] sortArgs = {outputFolder + FOLDER_VEHICLES};
+        String[] sortArgs = {outputFolder + ExtractionUtils.FOLDER_VEHICLES};
         DigicoreFilesSorter.main(sortArgs);
 
         /* Extracting */
-        boolean createdXmlFolder = new File(outputFolder + FOLDER_XML).mkdirs();
+        boolean createdXmlFolder = new File(outputFolder + ExtractionUtils.FOLDER_XML).mkdirs();
         if (!createdXmlFolder) {
-            LOG.error("Could not create the ./xml/ folder.");
+            LOG.error("Could not create the " + ExtractionUtils.FOLDER_XML + " folder.");
         }
         String[] extractArgs = {
-                outputFolder + FOLDER_VEHICLES,
+                outputFolder + ExtractionUtils.FOLDER_VEHICLES,
                 statusFile,
-                outputFolder + FOLDER_XML,
+                outputFolder + ExtractionUtils.FOLDER_XML,
                 DEFAULT_THREADS,
                 DEFAULT_MAJOR_THRESHOLD,
                 DEFAULT_MINOR_THRESHOLD,
@@ -129,7 +121,7 @@ public class TurnkeyExtractor {
         MultiThreadChainExtractor.main(extractArgs);
 
         /* Collating */
-        String[] collateArgs = {outputFolder, outputFolder + FILENAME_VEHICLES, TransformationFactory.HARTEBEESTHOEK94_LO29, descr, "true"};
+        String[] collateArgs = {outputFolder, outputFolder + ExtractionUtils.FILENAME_VEHICLES, TransformationFactory.HARTEBEESTHOEK94_LO29, descr, "true"};
         DigicoreVehicleCollator.main(collateArgs);
 
         LOG.info("Done with the turnkey extraction.");

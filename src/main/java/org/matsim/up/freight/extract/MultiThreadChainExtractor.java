@@ -18,7 +18,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.extract.step3_extract;
+package org.matsim.up.freight.extract;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,7 +34,7 @@ import org.matsim.up.utils.FileUtils;
 import org.matsim.up.utils.Header;
 
 
-public class MultiThreadChainExtractor {
+class MultiThreadChainExtractor {
 	private final static Logger log = Logger.getLogger(MultiThreadChainExtractor.class);
 	private final ExecutorService threadExecutor;
 

@@ -18,7 +18,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.extract.step4_collate;
+package org.matsim.up.freight.extract;
 
 import java.io.File;
 import java.util.Locale;
@@ -32,7 +32,6 @@ import org.matsim.api.core.v01.Id;
 import org.matsim.core.utils.geometry.CoordUtils;
 import org.matsim.testcases.MatsimTestUtils;
 import org.matsim.up.freight.containers.*;
-import org.matsim.up.freight.extract.step4_collate.DigicoreVehicleCollator;
 import org.matsim.up.freight.io.DigicoreVehicleWriter;
 
 

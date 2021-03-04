@@ -18,7 +18,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.extract.step4_collate;
+package org.matsim.up.freight.extract;
 
 import java.io.File;
 import java.util.List;
@@ -40,7 +40,7 @@ import org.matsim.up.utils.Header;
  * 
  * @author jwjoubert
  */
-public class DigicoreVehicleCollator {
+class DigicoreVehicleCollator {
 	private final static Logger LOG = Logger.getLogger(DigicoreVehicleCollator.class);
 
 	/**

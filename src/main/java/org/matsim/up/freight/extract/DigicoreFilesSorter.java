@@ -1,4 +1,4 @@
-package org.matsim.up.freight.extract.step2_sort;
+package org.matsim.up.freight.extract;
 
  import org.apache.log4j.Logger;
 import org.matsim.core.utils.io.IOUtils;
@@ -23,7 +23,7 @@ import java.util.List;
  *
  * @author jwjoubert
  */
-public class DigicoreFilesSorter {
+class DigicoreFilesSorter {
     private final static Logger log = Logger.getLogger(DigicoreFilesSorter.class);
     private final static String DELIMITER = ","; // this could be "," or "\t"
     private final String root;
@@ -35,7 +35,7 @@ public class DigicoreFilesSorter {
      * @param root the absolute path of the folder in which vehicle files can
      *             be found that must be sorted.
      */
-    public DigicoreFilesSorter(String root) {
+    DigicoreFilesSorter(String root) {
         this.root = root;
     }
 
@@ -64,7 +64,7 @@ public class DigicoreFilesSorter {
     }
 
 
-    public void sortVehicleFiles() {
+    void sortVehicleFiles() {
         File folder = new File(this.root);
         log.info("Sorting files in " + folder.getAbsolutePath());
 
@@ -148,17 +148,17 @@ public class DigicoreFilesSorter {
     private void writeList(File file, List<DigicoreRecord> sortedList) {
         try (BufferedWriter bw = IOUtils.getBufferedWriter(file.getAbsolutePath() + ".gz")) {
             // Write the header, if required, for ArcGIS inclusion
-            bw.write("VehicleID");
+            bw.write(ExtractionUtils.SORTED_HEADER_VEHICLE_ID);
             bw.write(DELIMITER);
-            bw.write("Time");
+            bw.write(ExtractionUtils.SORTED_HEADER_TIME);
             bw.write(DELIMITER);
-            bw.write("Long");
+            bw.write(ExtractionUtils.SORTED_HEADER_LONGITUDE);
             bw.write(DELIMITER);
-            bw.write("Lat");
+            bw.write(ExtractionUtils.SORTED_HEADER_LATITUDE);
             bw.write(DELIMITER);
-            bw.write("Status");
+            bw.write(ExtractionUtils.SORTED_HEADER_STATUS);
             bw.write(DELIMITER);
-            bw.write("Speed");
+            bw.write(ExtractionUtils.SORTED_HEADER_SPEED);
             bw.newLine();
 
             // write all points, except the last, with a newLine

@@ -18,26 +18,26 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.extract.step3_extract;
+package org.matsim.up.freight.extract;
+
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-
-import org.apache.log4j.Logger;
 
 /**
  * Class to read vehicle status codes for the <i>Digicore</i> records. 
  * @author jwjoubert
  */
-public class DigicoreStatusReader {
+class DigicoreStatusReader {
 	private final Logger log = Logger.getLogger(DigicoreStatusReader.class);
-	private List<String> startSignals;
-	private List<String> stopSignals;
+	private final List<String> startSignals;
+	private final List<String> stopSignals;
 	
 	/**
 	 * Instantiates the {@link DigicoreStatusReader}. The user should not get 
@@ -53,46 +53,39 @@ public class DigicoreStatusReader {
 	 * Only the first two lines of the signal file will be read. Ensure thus that the 
 	 * first line of the file is not blank.
 	 * @param filename absolute path of the file containing the vehicle statuses.
-	 * @throws FileNotFoundException
+	 * @throws FileNotFoundException when the status file is not available.
 	 */
-	public DigicoreStatusReader(String filename) throws FileNotFoundException {
-		startSignals = new ArrayList<String>();
-		stopSignals = new ArrayList<String>();
+	DigicoreStatusReader(String filename) throws FileNotFoundException {
+		startSignals = new ArrayList<>();
+		stopSignals = new ArrayList<>();
 		this.readSignals(filename);
 	}
 	
 	
 	private void readSignals(String string) throws FileNotFoundException{
 		log.info("Reading vehicle start and stop signals from " + string);
-		Scanner input = new Scanner(new BufferedReader(new FileReader(new File(string))));
-		try{
+		try (Scanner input = new Scanner(new BufferedReader(new FileReader(string)))) {
 			String[] listStart = input.nextLine().split(",");
-			if(listStart[0].equalsIgnoreCase("start")){
-				for(int i = 1; i < listStart.length; i++){
-					startSignals.add( listStart[i] );
-				}
-				if(startSignals.size()==0){
+			if (listStart[0].equalsIgnoreCase("start")) {
+				startSignals.addAll(Arrays.asList(listStart).subList(1, listStart.length));
+				if (startSignals.size() == 0) {
 					log.warn("No start signals were identified!");
 				}
-			} else{
+			} else {
 				log.error("The first line of the signal file does not start with 'Start'");
 				throw new RuntimeException("The signal file is in the wrong format!");
 			}
 			String[] listStop = input.nextLine().split(",");
-			if(listStop[0].equalsIgnoreCase("stop")){
-				for(int i = 1; i < listStop.length; i++){
-					stopSignals.add( listStop[i] );
-				}
-				if(stopSignals.size()==0){
+			if (listStop[0].equalsIgnoreCase("stop")) {
+				stopSignals.addAll(Arrays.asList(listStop).subList(1, listStop.length));
+				if (stopSignals.size() == 0) {
 					log.warn("No stop signals were identified!");
 				}
-			} else{
+			} else {
 				log.error("The second line of the signal file does not start with 'Stop'");
 				throw new RuntimeException("The signal file is in the wrong format!");
 			}
 			log.info("Done reading signals.");
-		} finally{
-			input.close();
 		}
 	}
 
@@ -100,7 +93,6 @@ public class DigicoreStatusReader {
 	public List<String> getStartSignals() {
 		return startSignals;
 	}
-
 
 	public List<String> getStopSignals() {
 		return stopSignals;

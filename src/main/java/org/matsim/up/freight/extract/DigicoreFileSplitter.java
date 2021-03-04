@@ -18,7 +18,7 @@
  *                                                                         *
  * *********************************************************************** */
 
-package org.matsim.up.freight.extract.step1_split;
+package org.matsim.up.freight.extract;
 
 import org.apache.log4j.Logger;
 import org.matsim.core.utils.io.IOUtils;
@@ -35,7 +35,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-public class DigicoreFileSplitter {
+class DigicoreFileSplitter {
     private static final Logger LOG = Logger.getLogger(DigicoreFileSplitter.class);
 
     private final String inputFilename;
@@ -240,11 +240,8 @@ public class DigicoreFileSplitter {
 
                                     /* Open the file for the new vehicle
                                      */
-                                    vehicleFile = outputFolder + "Vehicles/" + inputString[fieldVehId] + ".txt";
+                                    vehicleFile = outputFolder + ExtractionUtils.FOLDER_VEHICLES + inputString[fieldVehId] + ".txt";
                                     output = IOUtils.getAppendingBufferedWriter(vehicleFile);
-                                    if (output == null) {
-                                        LOG.info("Stop here");
-                                    }
                                 }
 
                                 // Write the record to the new file
@@ -283,7 +280,7 @@ public class DigicoreFileSplitter {
      * A method to create a new "Vehicles" folder in the output directory in which the
      * individual vehicle files will be written out to.
      *
-     * @param outputDirectory the path/directory where the "Vehicles" folder should be created
+     * @param outputDirectory the path/directory where the "vehicles" folder should be created
      */
     public void createVehicleFolder(String outputDirectory) {
         File outputFolder = new File(outputDirectory + "Vehicles/");

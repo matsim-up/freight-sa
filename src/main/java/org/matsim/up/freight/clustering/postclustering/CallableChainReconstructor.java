@@ -22,12 +22,12 @@ import org.matsim.up.freight.containers.DigicoreVehicle;
 
 
 public class CallableChainReconstructor implements Callable<DigicoreVehicle> {
-	private Logger log = Logger.getLogger(CallableChainReconstructor.class);
-	private DigicoreVehicle vehicle;
-	private QuadTree<DigicoreFacility> facilityTree;
-	private Counter threadCounter;
+	private final Logger log = Logger.getLogger(CallableChainReconstructor.class);
+	private final DigicoreVehicle vehicle;
+	private final QuadTree<DigicoreFacility> facilityTree;
+	private final Counter threadCounter;
 	private boolean inStudyArea;
-	private Geometry studyArea;
+	private final Geometry studyArea;
 
 	public CallableChainReconstructor(DigicoreVehicle vehicle, 
 			QuadTree<DigicoreFacility> facilityTree, 
@@ -60,7 +60,7 @@ public class CallableChainReconstructor implements Callable<DigicoreVehicle> {
 				 * This seems to be a fairly arbitrary threshold. If a point is
 				 * not within 1000m, chances are it is NOT AT any facility. */
 				Collection<DigicoreFacility> col = this.facilityTree.getDisk(da.getCoord().getX(), da.getCoord().getY(), 1000);
-				List<DigicoreFacility> neighbours = new ArrayList<DigicoreFacility>(col.size());
+				List<DigicoreFacility> neighbours = new ArrayList<>(col.size());
 				neighbours.addAll(col);
 
 				if(neighbours.size() > 0){
@@ -68,7 +68,7 @@ public class CallableChainReconstructor implements Callable<DigicoreVehicle> {
 					int i = 0;
 					while(!found && i < neighbours.size()){
 						Id<ActivityFacility> thisFacilityId = neighbours.get(i).getId();
-						Geometry g = null;
+						Geometry g;
 						
 						Object o = neighbours.get(i).getAttributes().getAttribute("concaveHull");
 						if(o instanceof Geometry){

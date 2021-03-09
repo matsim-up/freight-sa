@@ -8,10 +8,10 @@ import org.matsim.core.utils.geometry.transformations.TransformationFactory;
  *
  * @author jwjoubert
  */
-class ExtractionUtils {
+public class ExtractionUtils {
     final static String FOLDER_VEHICLES = "vehicles/";
     final static String FOLDER_XML = "xml/";
-    final static String FILENAME_VEHICLES = "digicoreVehicles.xml.gz";
+    public final static String FILENAME_VEHICLES = "digicoreVehicles.xml.gz";
 
     final static String SORTED_HEADER_VEHICLE_ID = "vId";
     final static String SORTED_HEADER_TIME = "time";

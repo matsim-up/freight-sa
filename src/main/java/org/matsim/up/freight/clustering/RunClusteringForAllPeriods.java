@@ -15,7 +15,7 @@ import java.util.List;
 class RunClusteringForAllPeriods {
     final private static Logger LOG = Logger.getLogger(RunClusteringForAllPeriods.class);
     final private static String DEFAULT_FOLDER = "/data/digicore/longitudinal/processed/";
-    final private static String DEFAULT_SHAPEFILE = "./input/shapefiles/southAfrica/SouthAfrica_GAP2010_H94Lo29.shp";
+    final private static String DEFAULT_SHAPEFILE = "./input/shapefiles/southAfrica/SouthAfrica_GAP2010_H94Lo29_NE.shp";
     final private static String DEFAULT_SHAPEFILE_ID = "1";
     final private static String DEFAULT_THREADS = "22";
 

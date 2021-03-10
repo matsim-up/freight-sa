@@ -119,8 +119,8 @@ public class DigicoreClusterRunner {
 
         /* These values should be set following Meintjes and Joubert, City Logistics paper?
          * Update (March 2021, JWJ): rather use Dirk de Beer's first PhD paper's values. */
-        double[] radii = {11}; ////, 10, 15, 20, 25, 30, 35, 40};
-        int[] pmins = {17}; //, 10, 15, 20, 25};
+        double[] radii = {16.6}; ////, 10, 15, 20, 25, 30, 35, 40};
+        int[] pmins = {11}; //, 10, 15, 20, 25};
 
         for (double thisRadius : radii) {
             for (int thisPmin : pmins) {

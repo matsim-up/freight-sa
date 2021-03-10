@@ -24,8 +24,9 @@ import java.util.Locale;
 public class ClusterUtils {
 	public static final String ATTR_CONCAVE_HULL = "concaveHull";
 	public static final String ATTR_DIGICORE_ACTIVITY_COUNT = "digicoreActivityCount";
-	public static final String FILENAME_SUFFIX_FACILITIES_XML = "facilities.xml.gz";
-	public static final String FILENAME_SUFFIX_FACILITIES_CSV = "facilities.csv.gz";
+	public static final String SUFFIX_FILENAME_FACILITIES_XML = "facilities.xml.gz";
+	public static final String SUFFIX_FILENAME_FACILITIES_CSV = "facilities.csv.gz";
+	public static final String SUFFIX_FACILITY_FOLDER = "facilityPoints/";
 
 	/**
 	 * Gets all the months that is available in the longitudinal data set from

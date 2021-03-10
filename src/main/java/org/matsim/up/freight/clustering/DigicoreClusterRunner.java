@@ -51,7 +51,6 @@ import org.matsim.up.freight.io.DigicoreVehiclesReader;
 import org.matsim.up.utils.FileUtils;
 import org.matsim.up.utils.Header;
 import org.matsim.utils.objectattributes.AttributeConverter;
-import org.matsim.utils.objectattributes.ObjectAttributes;
 import org.matsim.utils.objectattributes.attributable.Attributes;
 
 
@@ -70,7 +69,6 @@ public class DigicoreClusterRunner {
     private final int numberOfThreads;
     private Map<Id<MyZone>, List<Coord>> zoneMap = null;
     private ActivityFacilities facilities;
-    private ObjectAttributes facilityAttributes;
 
     /**
      * Clustering the minor activities from Digicore vehicle chains. The following
@@ -131,10 +129,10 @@ public class DigicoreClusterRunner {
                 LOG.info("================================================================================");
 
                 /* Create configuration-specific filenames. */
-                String outputFolder = String.format(Locale.US, "%s%.0f_%d/", outputFolderName, thisRadius, thisPmin);
-                String theFacilityFile = outputFolder + String.format(Locale.US, "%.0f_%d_facilities.xml.gz", thisRadius, thisPmin);
-                String theFacilityCsvFile = outputFolder + String.format(Locale.US, "%.0f_%d_facilityCsv.csv.gz", thisRadius, thisPmin);
-                String facilityPointFolder = String.format(Locale.US,"%sfacilityPoints/", outputFolder);
+                String outputFolder = String.format(Locale.US, "%s%.1f_%d/", outputFolderName, thisRadius, thisPmin);
+                String theFacilityFile = outputFolder + String.format(Locale.US, "%.1f_%d_%s", thisRadius, thisPmin, ClusterUtils.SUFFIX_FILENAME_FACILITIES_XML);
+                String theFacilityCsvFile = outputFolder + String.format(Locale.US, "%.1f_%d_%s", thisRadius, thisPmin, ClusterUtils.SUFFIX_FILENAME_FACILITIES_CSV);
+                String facilityPointFolder = String.format(Locale.US,"%s%s", outputFolder, ClusterUtils.SUFFIX_FACILITY_FOLDER);
 
                 /* Create the output folders. If it exists... first delete it. */
                 File folder = new File(outputFolder);
@@ -147,8 +145,7 @@ public class DigicoreClusterRunner {
                 folder.mkdirs();
 
                 /* Cluster. */
-                dcr.facilities = FacilitiesUtils.createActivityFacilities(String.format(Locale.US, "Digicore clustered facilities: %.0f (radius); %d (pmin)", thisRadius, thisPmin));
-                dcr.facilityAttributes = new ObjectAttributes();
+                dcr.facilities = FacilitiesUtils.createActivityFacilities(String.format(Locale.US, "Digicore clustered facilities: %.1f (radius); %d (pmin)", thisRadius, thisPmin));
                 try {
                     dcr.clusterPointLists(thisRadius, thisPmin, facilityPointFolder);
                 } catch (Exception e) {
@@ -206,7 +203,7 @@ public class DigicoreClusterRunner {
                 bw.write(id.toString());
                 bw.write(",");
                 bw.write(String.format("%.1f,%.1f,", af.getCoord().getX(), af.getCoord().getY()));
-                bw.write(String.valueOf(this.facilityAttributes.getAttribute(id.toString(), ClusterUtils.ATTR_DIGICORE_ACTIVITY_COUNT)));
+                bw.write(String.valueOf(af.getAttributes().getAttribute(ClusterUtils.ATTR_DIGICORE_ACTIVITY_COUNT)));
                 bw.newLine();
             }
         } catch (IOException e) {
@@ -294,11 +291,8 @@ public class DigicoreClusterRunner {
                             ActivityFacility af = facilities.getFactory().createActivityFacility(facilityId, dc.getCenterOfGravity());
                             facilities.addActivityFacility(af);
 
-                            af.getAttributes().putAttribute("digicoreActivityCount", String.valueOf(dc.getPoints().size()));
-                            af.getAttributes().putAttribute("concaveHull", hull);
-
-                            facilityAttributes.putAttribute(facilityId.toString(), "DigicoreActivityCount", String.valueOf(dc.getPoints().size()));
-                            facilityAttributes.putAttribute(facilityId.toString(), "concaveHull", hull);
+                            af.getAttributes().putAttribute(ClusterUtils.ATTR_DIGICORE_ACTIVITY_COUNT, String.valueOf(dc.getPoints().size()));
+                            af.getAttributes().putAttribute(ClusterUtils.ATTR_CONCAVE_HULL, hull);
                         } else {
                             LOG.debug("Facility " + facilityId.toString() + " is not added. Hull is an empty geometry!");
                             numberOfFacilitiesOmitted++;
@@ -318,7 +312,7 @@ public class DigicoreClusterRunner {
                      * Update (20130627): Or, rather write out the concave hull. */
                     /* FIXME Consider 'not' writing the facilities to file, as
                      * this takes up a HUGE amount of disk space (JWJ Nov '13) */
-                    String clusterFile = String.format("%s%.0f_%d_points_%s.csv.gz", outputFolder, radius, minimumPoints, facilityId.toString());
+                    String clusterFile = String.format("%s%.1f_%d_points_%s.csv.gz", outputFolder, radius, minimumPoints, facilityId.toString());
                     BufferedWriter bw = IOUtils.getBufferedWriter(clusterFile);
                     try {
                         bw.write("Long,Lat");
@@ -411,8 +405,8 @@ public class DigicoreClusterRunner {
 
 
         /* Set up the infrastructure so that threaded code is executed in blocks. */
-        ExecutorService threadExecutor = null;
-        List<DigicoreActivityReaderRunnable> threadList = null;
+        ExecutorService threadExecutor;
+        List<DigicoreActivityReaderRunnable> threadList;
         int vehicleCounter = 0;
         Counter counter = new Counter("   Vehicles completed: ");
 
@@ -421,14 +415,14 @@ public class DigicoreClusterRunner {
          * passed to threads later. */
         zoneMap = new HashMap<>();
         for (MyZone mz : zoneList) {
-            zoneMap.put(mz.getId(), new ArrayList<Coord>());
+            zoneMap.put(mz.getId(), new ArrayList<>());
         }
-        Map<Id<MyZone>, List<Coord>> theMap = null;
+        Map<Id<MyZone>, List<Coord>> theMap;
 
         while (vehicleCounter < vehicles.size()) {
             int blockCounter = 0;
             threadExecutor = Executors.newFixedThreadPool(this.numberOfThreads);
-            threadList = new ArrayList<DigicoreActivityReaderRunnable>();
+            threadList = new ArrayList<>();
 
             /* Assign the jobs in blocks. */
             while (blockCounter++ < BLOCK_SIZE && vehicleCounter < vehicles.size()) {
@@ -479,7 +473,6 @@ public class DigicoreClusterRunner {
     public DigicoreClusterRunner(int numberOfThreads) {
         this.numberOfThreads = numberOfThreads;
         facilities = FacilitiesUtils.createActivityFacilities("Digicore facilities");
-        facilityAttributes = new ObjectAttributes();
     }
 
 

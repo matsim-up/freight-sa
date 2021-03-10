@@ -69,7 +69,7 @@ class RunFacilityToActivityAssignerForAllPeriods {
             String folder = path + date + "/";
             String[] clusterArgs = new String[]{
                     folder + ExtractionUtils.FILENAME_VEHICLES,
-                    String.format(Locale.US, "%s%s_%s/%s_%s_%s", folder, radius, pmin, radius, pmin, ClusterUtils.FILENAME_SUFFIX_FACILITIES_XML),
+                    String.format(Locale.US, "%s%s_%s/%s_%s_%s", folder, radius, pmin, radius, pmin, ClusterUtils.SUFFIX_FILENAME_FACILITIES_XML),
                     threads,
                     shapefile,
                     shapefileField,

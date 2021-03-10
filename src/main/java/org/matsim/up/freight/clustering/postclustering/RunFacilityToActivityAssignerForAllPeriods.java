@@ -21,8 +21,8 @@ class RunFacilityToActivityAssignerForAllPeriods {
     final private static String DEFAULT_SHAPEFILE = "./input/shapefiles/southAfrica/SouthAfrica_H94Lo29_NE.shp";
     final private static String DEFAULT_SHAPEFILE_ID = "1";
     final private static String DEFAULT_THREADS = "22";
-    final private static String DEFAULT_RADIUS = "11";
-    final private static String DEFAULT_P_MIN = "17";
+    final private static String DEFAULT_RADIUS = "16.6";
+    final private static String DEFAULT_P_MIN = "11";
 
     /**
      * Optional arguments

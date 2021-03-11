@@ -202,7 +202,7 @@ public class DigicoreClusterRunner {
                 ActivityFacility af = this.facilities.getFacilities().get(id);
                 bw.write(id.toString());
                 bw.write(",");
-                bw.write(String.format("%.1f,%.1f,", af.getCoord().getX(), af.getCoord().getY()));
+                bw.write(String.format(Locale.US, "%.1f,%.1f,", af.getCoord().getX(), af.getCoord().getY()));
                 bw.write(String.valueOf(af.getAttributes().getAttribute(ClusterUtils.ATTR_DIGICORE_ACTIVITY_COUNT)));
                 bw.newLine();
             }
@@ -312,13 +312,13 @@ public class DigicoreClusterRunner {
                      * Update (20130627): Or, rather write out the concave hull. */
                     /* FIXME Consider 'not' writing the facilities to file, as
                      * this takes up a HUGE amount of disk space (JWJ Nov '13) */
-                    String clusterFile = String.format("%s%.1f_%d_points_%s.csv.gz", outputFolder, radius, minimumPoints, facilityId.toString());
+                    String clusterFile = String.format(Locale.US, "%s%.1f_%d_points_%s.csv.gz", outputFolder, radius, minimumPoints, facilityId.toString());
                     BufferedWriter bw = IOUtils.getBufferedWriter(clusterFile);
                     try {
                         bw.write("Long,Lat");
                         bw.newLine();
                         for (Coord c : coordList) {
-                            bw.write(String.format("%f, %f\n", c.getX(), c.getY()));
+                            bw.write(String.format(Locale.US, "%f, %f\n", c.getX(), c.getY()));
                         }
                     } catch (IOException e) {
                         throw new RuntimeException("Could not write to " + clusterFile);
@@ -331,9 +331,9 @@ public class DigicoreClusterRunner {
                     }
                 }
             } catch (InterruptedException e) {
-                throw new RuntimeException("InterruptedException caught in retieving thread results.");
+                throw new RuntimeException("InterruptedException caught in retrieving thread results.");
             } catch (ExecutionException e) {
-                throw new RuntimeException("ExecutionException caught in retieving thread results.");
+                throw new RuntimeException("ExecutionException caught in retrieving thread results.");
             }
         }
         ActivityFacilitiesImpl r = ((ActivityFacilitiesImpl) facilities);

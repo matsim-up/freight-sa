@@ -19,15 +19,7 @@
 
 package org.matsim.up.freight.algorithms.complexNetworks;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Coord;
@@ -551,8 +543,8 @@ public class PathDependentNetwork {
 		LOG.info("---------------------  Graph statistics  -------------------");
 		LOG.info("     Number of vertices: " + this.getNumberOfNodes());
 		LOG.info("         Number of arcs: " + this.getNumberOfEdges());
-		LOG.info("            Density (%): " + String.format("%01.6f", (this.getNumberOfEdges()) / Math.pow(getNumberOfNodes(), 2) * 100.0));
-		LOG.info(" Network build time (s): " + String.format("%.2f", ((double) this.buildEndTime - (double) this.buildStartTime) / 1000));
+		LOG.info("            Density (%): " + String.format(Locale.US, "%01.6f", (this.getNumberOfEdges()) / Math.pow(getNumberOfNodes(), 2) * 100.0));
+		LOG.info(" Network build time (s): " + String.format(Locale.US, "%.2f", ((double) this.buildEndTime - (double) this.buildStartTime) / 1000));
 		LOG.info("------------------------------------------------------------");
 	}
 
@@ -662,7 +654,7 @@ public class PathDependentNetwork {
 			this.id = id;
 			this.coord = coord;
 			this.pathDependence = new TreeMap<>();
-			this.startNodeMap = new TreeMap<String, Integer>();
+			this.startNodeMap = new TreeMap<>();
 		}
 
 		@Override
@@ -676,7 +668,7 @@ public class PathDependentNetwork {
 
 
 		public void setAsSource(int startHour, int numberOfActivities) {
-			String node = String.valueOf(startHour) + "," + String.valueOf(numberOfActivities);
+			String node = startHour + "," + numberOfActivities;
 			if (!this.startNodeMap.containsKey(node)) {
 				this.startNodeMap.put(node, 1);
 			} else {
@@ -688,16 +680,16 @@ public class PathDependentNetwork {
 
 		public void setPathDependentEdgeWeight(Id<Node> previousId, Id<Node> nextId, double weight) {
 			if (!pathDependence.containsKey(previousId)) {
-				pathDependence.put(previousId, new TreeMap<Id<Node>, Double>());
+				pathDependence.put(previousId, new TreeMap<>());
 			}
 			this.pathDependence.get(previousId).put(nextId, weight);
 		}
 
 
 		public void setAsSink(Id<Node> previousId) {
-			Map<Id<Node>, Double> map = null;
+			Map<Id<Node>, Double> map;
 			if (!pathDependence.containsKey(previousId)) {
-				map = new TreeMap<Id<Node>, Double>();
+				map = new TreeMap<>();
 				pathDependence.put(previousId, map);
 			} else {
 				map = pathDependence.get(previousId);
@@ -727,7 +719,7 @@ public class PathDependentNetwork {
 			}
 
 			/* Add the path-dependency if it doesn't exist yet. */
-			Map<Id<Node>, Double> map = null;
+			Map<Id<Node>, Double> map;
 			if (!pathDependence.containsKey(previousNodeId)) {
 				map = new TreeMap<>();
 				pathDependence.put(previousNodeId, map);
@@ -737,7 +729,7 @@ public class PathDependentNetwork {
 
 			/* Increment the link weight. */
 			if (!map.containsKey(nextNodeId)) {
-				map.put(nextNodeId, new Double(1.0));
+				map.put(nextNodeId, 1.0);
 			} else {
 				map.put(nextNodeId, map.get(nextNodeId) + 1.0);
 			}

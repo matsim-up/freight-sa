@@ -18,18 +18,10 @@
  *                                                                         *
  * *********************************************************************** */
 
-/**
- * 
- */
 package org.matsim.up.freight.algorithms.complexNetworks;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
-
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.log4j.Logger;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -43,6 +35,12 @@ import org.matsim.core.utils.geometry.transformations.TransformationFactory;
 import org.matsim.core.utils.io.IOUtils;
 import org.matsim.core.utils.misc.Counter;
 import org.matsim.up.freight.algorithms.complexNetworks.PathDependentNetwork.PathDependentNode;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 
 /**
@@ -64,8 +62,8 @@ public class ComplexNetworkUtils {
 	 * @param geometry the area within which nodes are kept. <b>Note:</b> this
 	 * 		  geometry must be in the same coordinate reference system than the
 	 * 		  network.
-	 * @return
 	 */
+	@SuppressWarnings("unused")
 	public static Map<Id<Node>, Map<Id<Node>, Double>> cleanupNetwork(PathDependentNetwork network, Geometry geometry){
 		LOG.info("Reducing the path-dependent network to those connected to or inside geometry...");
 		LOG.warn("The network's node coordinates must be in the same coordinate reference system than the given geometry!");
@@ -77,21 +75,14 @@ public class ComplexNetworkUtils {
 
 		Map<Id<Node>, Map<Id<Node>, Double>> original = network.getEdges();
 		LOG.info("Total number of origin nodes to consider: " + original.size());
-		Map<Id<Node>, Map<Id<Node>, Double>> reduced = new TreeMap<Id<Node>, Map<Id<Node>,Double>>();
+		Map<Id<Node>, Map<Id<Node>, Double>> reduced = new TreeMap<>();
 
 		Counter counter = new Counter("  origin nodes # ");
 		for(Id<Node> o : original.keySet()){
 			Map<Id<Node>, Double> map = original.get(o);
 
 			/* Check if the origin node is inside the geomtery. */
-			PathDependentNode n1 = network.getPathDependentNode(o);
-			Point p1 = gf.createPoint(new Coordinate(n1.getCoord().getX(), n1.getCoord().getY()));
-			boolean is1Inside = false;
-			if(envelope.contains(p1)){
-				if(geometry.contains(p1)){
-					is1Inside = true;
-				}
-			}
+			boolean is1Inside =	checkIfInside(network, geometry, gf, envelope, o);
 
 			if(is1Inside){
 				/* Add all the nodes that are not already in the reduced map. */ 
@@ -110,21 +101,12 @@ public class ComplexNetworkUtils {
 				}
 			} else{
 				for(Id<Node> d : map.keySet()){
-					PathDependentNode n2 = network.getPathDependentNode(d);
-
-					/* Check if destination node is inside geometry. */
-					Point p2 = gf.createPoint(new Coordinate(n2.getCoord().getX(), n2.getCoord().getY()));
-					boolean is2Inside = false;
-					if(envelope.contains(p2)){
-						if(geometry.contains(p2)){
-							is2Inside = true;
-						}
-					}
+					boolean is2Inside = checkIfInside(network, geometry, gf, envelope, d);
 
 					/* Add all the nodes that are not already in the reduced map. */ 
 					if(is2Inside){
 						if(!reduced.containsKey(o)){
-							reduced.put(o, new HashMap<Id<Node>, Double>());
+							reduced.put(o, new HashMap<>());
 							reduced.get(o).put(d, map.get(d));
 						} else{
 							Map<Id<Node>, Double> existingMap = reduced.get(o);
@@ -143,6 +125,18 @@ public class ComplexNetworkUtils {
 		counter.printCounter();
 		LOG.info("Done reducing the path-dependent network.");
 		return reduced;
+	}
+
+	private static boolean checkIfInside(PathDependentNetwork network, Geometry geometry, GeometryFactory gf, Geometry envelope, Id<Node> o) {
+		PathDependentNode n1 = network.getPathDependentNode(o);
+		Point p1 = gf.createPoint(new Coordinate(n1.getCoord().getX(), n1.getCoord().getY()));
+		boolean isInside = false;
+		if(envelope.covers(p1)){
+			if(geometry.covers(p1)){
+				isInside = true;
+			}
+		}
+		return isInside;
 	}
 
 
@@ -167,18 +161,12 @@ public class ComplexNetworkUtils {
 
 		CoordinateTransformation ct = TransformationFactory.getCoordinateTransformation(
 				networkCRS, TransformationFactory.WGS84);
-		BufferedWriter bw = IOUtils.getBufferedWriter(filename);
-		try{
-			bw.write("oId,oLon,oLat,oX,oY,dId,dLon,dLat,dX,dY,weight");
-			bw.newLine();
-
-			Iterator<Id<Node>> oIt = edgeMap.keySet().iterator();
-			while(oIt.hasNext()){
-				Id<Node> oId = oIt.next();
+		String[] headers = new String[]{"oId", "oLon", "oLat", "oX", "oY", "dId" ,"dLon" ,"dLat", "dX", "dY", "weight"};
+		try(BufferedWriter bw = IOUtils.getBufferedWriter(filename);
+			CSVPrinter csvPrinter = new CSVPrinter(bw, CSVFormat.DEFAULT.withHeader(headers))){
+			for (Id<Node> oId : edgeMap.keySet()) {
 				Map<Id<Node>, Double> thisMap = edgeMap.get(oId);
-				Iterator<Id<Node>> dIt = thisMap.keySet().iterator();
-				while(dIt.hasNext()){
-					Id<Node> dId = dIt.next();
+				for (Id<Node> dId : thisMap.keySet()) {
 					double weight = edgeMap.get(oId).get(dId);
 
 					/* Get and convert the two nodes. */
@@ -187,7 +175,7 @@ public class ComplexNetworkUtils {
 					Coord dC = network.getPathDependentNode(dId).getCoord();
 					Coord dCT = ct.transform(dC);
 
-					bw.write(String.format("%s,%.6f,%.6f,%.0f,%.0f,%s,%.6f,%.6f,%.0f,%.0f,%f\n", 
+					csvPrinter.printRecord(
 							oId.toString(),
 							oCT.getX(),
 							oCT.getY(),
@@ -198,19 +186,13 @@ public class ComplexNetworkUtils {
 							dCT.getY(),
 							dC.getX(),
 							dC.getY(),
-							weight));
+							weight
+					);
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new RuntimeException("Cannot write to " + filename);
-		} finally{
-			try {
-				bw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-				throw new RuntimeException("Cannot close " + filename);
-			}
 		}
 		LOG.info("Done writing degree values to file.");
 	}

@@ -17,13 +17,11 @@
  *                                                                         *
  * *********************************************************************** */
 
-/**
- * 
- */
 package org.matsim.up.freight.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -56,7 +54,12 @@ public class DigicoreChainCleaner {
 	final private static Logger LOG = Logger.getLogger(DigicoreChainCleaner.class);
 
 	/**
-	 * @param args
+	 * @param args compulsory arguments in the following order:
+	 *             <ol>
+	 *             <li>input {@link DigicoreVehicles} file;</li>
+	 *             <li>number of threads; and</li>
+	 *             <li>output {@link DigicoreVehicles} file</li>
+	 *             </ol>
 	 */
 	public static void main(String[] args) {
 		Header.printHeader(DigicoreChainCleaner.class, args);
@@ -103,10 +106,7 @@ public class DigicoreChainCleaner {
 				if(vehicle != null){
 					newVehicles.addDigicoreVehicle(vehicle);
 				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				throw new RuntimeException("Could not get DigicoreVehicle after multithreaded run.");
-			} catch (ExecutionException e) {
+			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 				throw new RuntimeException("Could not get DigicoreVehicle after multithreaded run.");
 			}
@@ -120,7 +120,7 @@ public class DigicoreChainCleaner {
 	
 	public static class CallableChainCleaner implements Callable<DigicoreVehicle> {
 		private final DigicoreVehicle vehicle;
-		private Counter counter;
+		private final Counter counter;
 		private int numberOfActivitiesChanged = 0;
 		
 		public CallableChainCleaner(DigicoreVehicle vehicle, Counter threadCounter) {
@@ -165,25 +165,24 @@ public class DigicoreChainCleaner {
 		 * the {@link DigicoreTrace}s that are between two consecutive
 		 * {@link DigicoreActivity}s.
 		 * 
-		 * @param chain
-		 * @return
+		 * @param chain to be cleaned.
 		 */
-		public DigicoreChain cleanChain(DigicoreChain chain){
+		public void cleanChain(DigicoreChain chain){
 			int activityIndex = 0;
-			List<DigicoreChainElement> elements = chain;
-			while(activityIndex < elements.size()-1){
+			while(activityIndex < ((List<DigicoreChainElement>) chain).size()-1){
 				DigicoreActivity thisActivity = null;
-				if(elements.get(activityIndex) instanceof DigicoreActivity){
-					thisActivity = (DigicoreActivity) elements.get(activityIndex);
+				if(((List<DigicoreChainElement>) chain).get(activityIndex) instanceof DigicoreActivity){
+					thisActivity = (DigicoreActivity) ((List<DigicoreChainElement>) chain).get(activityIndex);
 				}
 				
 				DigicoreActivity nextActivity = null;
-				if(elements.get(activityIndex+2) instanceof DigicoreActivity){
-					nextActivity = (DigicoreActivity) elements.get(activityIndex+2);
+				if(((List<DigicoreChainElement>) chain).get(activityIndex+2) instanceof DigicoreActivity){
+					nextActivity = (DigicoreActivity) ((List<DigicoreChainElement>) chain).get(activityIndex+2);
 				}
-				
+
+				assert thisActivity != null;
 				if( thisActivity.getFacilityId() != null &&
-						nextActivity.getFacilityId() != null &&
+						Objects.requireNonNull(nextActivity).getFacilityId() != null &&
 						thisActivity.getFacilityId().toString().equalsIgnoreCase(nextActivity.getFacilityId().toString()) ){
 					/* Merge the two activities. */
 					numberOfActivitiesChanged++;
@@ -202,7 +201,6 @@ public class DigicoreChainCleaner {
 					activityIndex += 2;
 				}
 			}
-			return chain;
 		}
 		
 		public void consolidateBetweenChains(){

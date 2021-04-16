@@ -110,7 +110,7 @@ public class PathDependentNetwork {
 
 		/* Process the first activity pair, but only if both activities are
 		 * associated with a facility. */
-		Id<Node> previousNodeId = Id.createNodeId("source");
+		Id<Node> previousNodeId = Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE);
 		Id<Node> currentNodeId = Id.createNodeId(activities.get(0).getFacilityId());
 		Id<Node> nextNodeId = Id.createNodeId(activities.get(1).getFacilityId());
 
@@ -133,7 +133,7 @@ public class PathDependentNetwork {
 			 * reached from the currentNode. */
 			this.network.get(nextNodeId).establishPathDependence(currentNodeId);
 		}
-		previousNodeId = currentNodeId == null ? Id.create("unknown", Node.class) : currentNodeId;
+		previousNodeId = currentNodeId == null ? Id.create(ComplexNetworkUtils.NAME_UNKNOWN, Node.class) : currentNodeId;
 
 		/* Process the remainder of the (minor) activity pairs. */
 		for (int i = 1; i < activities.size() - 1; i++) {
@@ -160,7 +160,7 @@ public class PathDependentNetwork {
 				 * reached from the currentNode. */
 				this.network.get(nextNodeId).establishPathDependence(currentNodeId);
 			}
-			previousNodeId = currentNodeId == null ? Id.create("unknown", Node.class) : currentNodeId;
+			previousNodeId = currentNodeId == null ? Id.create(ComplexNetworkUtils.NAME_UNKNOWN, Node.class) : currentNodeId;
 		}
 
 		/* Process the last activity pair. No link needs to be added, but we
@@ -197,8 +197,8 @@ public class PathDependentNetwork {
 		double d = 0.0;
 
 		/* Sort out null Ids for sources and sinks. */
-		if (previousId == null) previousId = Id.create("source", Node.class);
-		if (nextId == null) nextId = Id.create("sink", Node.class);
+		if (previousId == null) previousId = Id.create(ComplexNetworkUtils.NAME_SOURCE, Node.class);
+		if (nextId == null) nextId = Id.create(ComplexNetworkUtils.NAME_SINK, Node.class);
 		if (currentId == null) {
 			throw new IllegalArgumentException("Cannot have a 'null' Id for current node.");
 		}
@@ -315,7 +315,7 @@ public class PathDependentNetwork {
 	Integer[] sampleChainAttributes(Id<Node> startNode, double randomValue) {
 		PathDependentNode node = this.getPathDependentNode(startNode);
 
-		Id<Node> sourceId = Id.createNodeId("source");
+		Id<Node> sourceId = Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE);
 		if (!node.getPathDependence().containsKey(sourceId)) {
 			LOG.error("Cannot sample a chain's start hour from a node that is not considered a major activity.");
 			throw new IllegalArgumentException("Illegal start node Id: " + startNode.toString());
@@ -387,7 +387,7 @@ public class PathDependentNetwork {
 		/* Remove the 'sink' node from the choice set, and see if there are
 		 * possible next nodes. */
 		Map<Id<Node>, Double> map = currentNode.getPathDependentNextNodes(previousNodeId);
-		Id<Node> sinkId = Id.createNodeId("sink");
+		Id<Node> sinkId = Id.createNodeId(ComplexNetworkUtils.NAME_SINK);
 		Map<Id<Node>, Double> choiceMap = new HashMap<Id<Node>, Double>();
 		for (Id<Node> id : map.keySet()) {
 			if (!id.equals(sinkId)) {
@@ -464,7 +464,7 @@ public class PathDependentNetwork {
 		 * in turn, will have a 'sink', i.e. end the chain. */
 		Map<Id<Node>, Double> choiceMap = new HashMap<Id<Node>, Double>();
 		Map<Id<Node>, Double> map = currentNode.getPathDependentNextNodes(previousId);
-		Id<Node> sinkId = Id.createNodeId("sink");
+		Id<Node> sinkId = Id.createNodeId(ComplexNetworkUtils.NAME_SINK);
 		for (Id<Node> possibleId : map.keySet()) {
 			/* Ignore 'sink' as a next node. */
 			if (!possibleId.toString().equalsIgnoreCase(sinkId.toString())) {
@@ -571,7 +571,7 @@ public class PathDependentNetwork {
 			for (Id<Node> previous : pathDependence.keySet()) {
 				Map<Id<Node>, Double> map = pathDependence.get(previous);
 				for (Id<Node> next : map.keySet()) {
-					if (!next.equals(Id.createNodeId("sink"))) {
+					if (!next.equals(Id.createNodeId(ComplexNetworkUtils.NAME_SINK))) {
 						double weight = map.get(next);
 						if (!thisMap.containsKey(next)) {
 							thisMap.put(next, weight);
@@ -607,8 +607,8 @@ public class PathDependentNetwork {
 	public Collection<Id<Node>> getConnectedInNodeIds(Id<Node> node) {
 		Collection<Id<Node>> nodes = new ArrayList<Id<Node>>();
 
-		Id<Node> source = Id.createNodeId("source");
-		Id<Node> unknown = Id.createNodeId("unknown");
+		Id<Node> source = Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE);
+		Id<Node> unknown = Id.createNodeId(ComplexNetworkUtils.NAME_UNKNOWN);
 		for (Id<Node> id : this.getPathDependentNode(node).getPathDependence().keySet()) {
 			if (!id.equals(source) && !id.equals(unknown)) {
 				nodes.add(id);
@@ -625,8 +625,8 @@ public class PathDependentNetwork {
 
 		PathDependentNode thisNode = this.getPathDependentNode(node);
 
-		Id<Node> sink = Id.createNodeId("sink");
-		Id<Node> unknown = Id.createNodeId("unknown");
+		Id<Node> sink = Id.createNodeId(ComplexNetworkUtils.NAME_SINK);
+		Id<Node> unknown = Id.createNodeId(ComplexNetworkUtils.NAME_UNKNOWN);
 		/* Check all incoming nodes. */
 		for (Id<Node> inId : thisNode.getPathDependence().keySet()) {
 			for (Id<Node> outId : thisNode.getPathDependentNextNodes(inId).keySet()) {
@@ -695,7 +695,7 @@ public class PathDependentNetwork {
 				map = pathDependence.get(previousId);
 			}
 
-			Id<Node> sinkId = Id.create("sink", Node.class);
+			Id<Node> sinkId = Id.create(ComplexNetworkUtils.NAME_SINK, Node.class);
 			if (!map.containsKey(sinkId)) {
 				map.put(sinkId, 1.0);
 			} else {
@@ -706,7 +706,7 @@ public class PathDependentNetwork {
 
 		public void addSourceLink(int startHour, int numberOfActivities, Id<Node> nextNodeId) {
 			this.setAsSource(startHour, numberOfActivities);
-			Id<Node> previousNodeId = Id.create("source", Node.class);
+			Id<Node> previousNodeId = Id.create(ComplexNetworkUtils.NAME_SOURCE, Node.class);
 
 			addPathDependentLink(previousNodeId, nextNodeId);
 		}
@@ -762,7 +762,7 @@ public class PathDependentNetwork {
 		public int getInDegree() {
 			int inDegree = 0;
 			for (Id<Node> id : this.pathDependence.keySet()) {
-				if (!id.equals(Id.create("source", Node.class)) && !id.equals(Id.create("unknown", Node.class))) {
+				if (!id.equals(Id.create(ComplexNetworkUtils.NAME_SOURCE, Node.class)) && !id.equals(Id.create(ComplexNetworkUtils.NAME_UNKNOWN, Node.class))) {
 					inDegree++;
 				}
 			}
@@ -785,7 +785,7 @@ public class PathDependentNetwork {
 					}
 				}
 			}
-			outNodes.remove(Id.create("sink", Node.class));
+			outNodes.remove(Id.create(ComplexNetworkUtils.NAME_SINK, Node.class));
 
 			return outNodes.size();
 		}
@@ -793,7 +793,7 @@ public class PathDependentNetwork {
 
 		private void establishPathDependence(Id<Node> previousId) {
 			if (!pathDependence.containsKey(previousId)) {
-				pathDependence.put(previousId, new TreeMap<Id<Node>, Double>());
+				pathDependence.put(previousId, new TreeMap<>());
 			}
 		}
 
@@ -805,7 +805,7 @@ public class PathDependentNetwork {
 		 * {@link #getOutDegree()}.
 		 */
 		public int getPathDependentOutDegree(Id<Node> inId) {
-			if (inId == null) inId = Id.create("source", Node.class);
+			if (inId == null) inId = Id.create(ComplexNetworkUtils.NAME_SOURCE, Node.class);
 
 			List<Id<Node>> outNodes = new ArrayList<>();
 			for (Id<Node> outId : pathDependence.get(inId).keySet()) {
@@ -813,7 +813,7 @@ public class PathDependentNetwork {
 					outNodes.add(outId);
 				}
 			}
-			outNodes.remove(Id.create("sink", Node.class));
+			outNodes.remove(Id.create(ComplexNetworkUtils.NAME_SINK, Node.class));
 
 			return outNodes.size();
 		}
@@ -858,7 +858,7 @@ public class PathDependentNetwork {
 
 		private double getSourceWeight() {
 			double weight = 0.0;
-			Id<Node> sourceId = Id.create("source", Node.class);
+			Id<Node> sourceId = Id.create(ComplexNetworkUtils.NAME_SOURCE, Node.class);
 			if (pathDependence.containsKey(sourceId)) {
 				for (Double d : pathDependence.get(sourceId).values()) {
 					weight += d;
@@ -875,7 +875,7 @@ public class PathDependentNetwork {
 
 		public double getTotalSinkWeight() {
 			double sinkWeight = 0.0;
-			Id<Node> sink = Id.createNodeId("sink");
+			Id<Node> sink = Id.createNodeId(ComplexNetworkUtils.NAME_SINK);
 			Iterator<Id<Node>> iterator = this.pathDependence.keySet().iterator();
 			while (iterator.hasNext()) {
 				Map<Id<Node>, Double> map = this.pathDependence.get(iterator.next());

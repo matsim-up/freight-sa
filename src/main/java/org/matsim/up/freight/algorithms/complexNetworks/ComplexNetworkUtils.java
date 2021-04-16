@@ -52,6 +52,10 @@ import java.util.TreeMap;
 public class ComplexNetworkUtils {
 	final private static Logger LOG = Logger.getLogger(ComplexNetworkUtils.class);
 
+	public static final String NAME_SOURCE = "source";
+	public static final String NAME_UNKNOWN = "unknown";
+	public static final String NAME_SINK = "sink";
+
 	/**
 	 * Reduces a given path-dependent complex network to only those nodes that
 	 * are inside a given geometry, or that are connected to a nodes inside the

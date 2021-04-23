@@ -41,11 +41,12 @@ public class PathDependentNetworkTest {
     @Test
     public void testSetupListOfChains() {
         List<DigicoreChain> chains = setupListOfChains();
-        Assert.assertEquals("Wrong number of chains.", 4, chains.size());
+        Assert.assertEquals("Wrong number of chains.", 5, chains.size());
         Assert.assertEquals("Wrong chain length - chain 1.", 3, chains.get(0).getAllActivities().size());
         Assert.assertEquals("Wrong chain length - chain 2.", 3, chains.get(1).getAllActivities().size());
         Assert.assertEquals("Wrong chain length - chain 3.", 3, chains.get(2).getAllActivities().size());
         Assert.assertEquals("Wrong chain length - chain 4.", 5, chains.get(3).getAllActivities().size());
+        Assert.assertEquals("Wrong chain length - chain 5.", 3, chains.get(4).getAllActivities().size());
     }
 
 
@@ -79,16 +80,21 @@ public class PathDependentNetworkTest {
         /* Node 'A' */
         PathDependentNode A = pdn.getPathDependentNode(Id.create("A", Node.class));
         Assert.assertEquals("Wrong in-degree for 'A'.", 0, A.getInDegree());
-        Assert.assertEquals("Wrong out-degree for 'A'.", 1, A.getOutDegree());
-        Assert.assertEquals("Wrong path-dependent out-degree for 'A'.", 1, A.getPathDependentOutDegree(null));
+        Assert.assertEquals("Wrong out-degree for 'A'.", 2, A.getOutDegree());
+        Assert.assertEquals("Wrong path-dependent out-degree for 'A'.", 2, A.getPathDependentOutDegree(null));
+        Assert.assertEquals("Wrong path-dependent out-degree for 'A'.", 2, A.getPathDependentOutDegree(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)));
         Assert.assertEquals("Wrong weight '(source) A -> C'", 2, pdn.getPathDependentWeight(null, Id.create("A", Node.class), Id.create("C", Node.class)), 0.001);
         Assert.assertEquals("Wrong weight '(from C) A -> C'", 0, pdn.getPathDependentWeight(Id.create("C", Node.class), Id.create("A", Node.class), Id.create("C", Node.class)), 0.001);
+        Assert.assertEquals("Wrong weight '(source) A -> B'", 1, pdn.getPathDependentWeight(null, Id.create("A", Node.class), Id.create("B", Node.class)), 0.001);
+        Assert.assertEquals("Wrong weight '(from B) A -> B'", 0, pdn.getPathDependentWeight(Id.create("B", Node.class), Id.create("A", Node.class), Id.create("B", Node.class)), 0.001);
+
 
         /* Node 'B' */
         PathDependentNode B = pdn.getPathDependentNode(Id.create("B", Node.class));
-        Assert.assertEquals("Wrong in-degree for 'B'", 0, B.getInDegree());
+        Assert.assertEquals("Wrong in-degree for 'B'", 1, B.getInDegree());
         Assert.assertEquals("Wrong out-degree for 'B'.", 1, B.getOutDegree());
         Assert.assertEquals("Wrong path-dependent out-degree for 'B'.", 1, B.getPathDependentOutDegree(null));
+        Assert.assertEquals("Wrong path-dependent out-degree for 'B'.", 1, B.getPathDependentOutDegree(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)));
         Assert.assertEquals("Wrong weight '(source) B -> C'", 1, pdn.getPathDependentWeight(null, Id.create("B", Node.class), Id.create("C", Node.class)), 0.001);
         Assert.assertEquals("Wrong weight '(from C) B -> C'", 0, pdn.getPathDependentWeight(Id.create("C", Node.class), Id.create("B", Node.class), Id.create("C", Node.class)), 0.001);
 
@@ -115,7 +121,7 @@ public class PathDependentNetworkTest {
         Assert.assertEquals("Wrong path-dependent ('C') out-degree for 'E'.", 0, E.getPathDependentOutDegree(Id.create("C", Node.class)));
 
         /* Test edge weights. */
-        Assert.assertEquals("Wrong edge weight: A-B", 0, pdn.getWeight(Id.create("A", Node.class), Id.create("B", Node.class)), 0.001);
+        Assert.assertEquals("Wrong edge weight: A-B", 1, pdn.getWeight(Id.create("A", Node.class), Id.create("B", Node.class)), 0.001);
         Assert.assertEquals("Wrong edge weight: A-C", 2, pdn.getWeight(Id.create("A", Node.class), Id.create("C", Node.class)), 0.001);
         Assert.assertEquals("Wrong edge weight: B-C", 2, pdn.getWeight(Id.create("B", Node.class), Id.create("C", Node.class)), 0.001);
         Assert.assertEquals("Wrong edge weight: C-D", 2, pdn.getWeight(Id.create("C", Node.class), Id.create("D", Node.class)), 0.001);
@@ -157,7 +163,7 @@ public class PathDependentNetworkTest {
             pdn.processActivityChain(chain);
         }
 
-        Assert.assertEquals("Wrong source weight for 'A'.", 2, pdn.getSourceWeight(Id.create("A", Node.class)), 0.001);
+        Assert.assertEquals("Wrong source weight for 'A'.", 3, pdn.getSourceWeight(Id.create("A", Node.class)), 0.001);
         Assert.assertEquals("Wrong source weight for 'B'.", 1, pdn.getSourceWeight(Id.create("B", Node.class)), 0.001);
         Assert.assertEquals("Wrong source weight for 'C'.", 0, pdn.getSourceWeight(Id.create("C", Node.class)), 0.001);
         Assert.assertEquals("Wrong source weight for 'D'.", 0, pdn.getSourceWeight(Id.create("D", Node.class)), 0.001);
@@ -173,11 +179,12 @@ public class PathDependentNetworkTest {
             pdn.processActivityChain(chain);
         }
 
-        Assert.assertEquals("Wrong source node: ratio A:B should be 2:1.", Id.create("A", Node.class), pdn.sampleChainStartNode(0.25));
-        Assert.assertEquals("Wrong source node: ratio A:B should be 2:1.", Id.create("A", Node.class), pdn.sampleChainStartNode(0.5));
-        Assert.assertEquals("Wrong source node: ratio A:B should be 2:1.", Id.create("A", Node.class), pdn.sampleChainStartNode(0.65));
-        Assert.assertEquals("Wrong source node: ratio A:B should be 2:1.", Id.create("B", Node.class), pdn.sampleChainStartNode(0.67));
-        Assert.assertEquals("Wrong source node: ratio A:B should be 2:1.", Id.create("B", Node.class), pdn.sampleChainStartNode(0.90));
+        Assert.assertEquals("Wrong source node: ratio A:B should be 3:1.", Id.create("A", Node.class), pdn.sampleChainStartNode(0.25));
+        Assert.assertEquals("Wrong source node: ratio A:B should be 3:1.", Id.create("A", Node.class), pdn.sampleChainStartNode(0.5));
+        Assert.assertEquals("Wrong source node: ratio A:B should be 3:1.", Id.create("A", Node.class), pdn.sampleChainStartNode(0.65));
+        Assert.assertEquals("Wrong source node: ratio A:B should be 3:1.", Id.create("A", Node.class), pdn.sampleChainStartNode(0.74));
+        Assert.assertEquals("Wrong source node: ratio A:B should be 3:1.", Id.create("B", Node.class), pdn.sampleChainStartNode(0.76));
+        Assert.assertEquals("Wrong source node: ratio A:B should be 3:1.", Id.create("B", Node.class), pdn.sampleChainStartNode(0.90));
     }
 
     @Test
@@ -192,7 +199,8 @@ public class PathDependentNetworkTest {
         Assert.assertEquals("Wrong number of nodes.", 5, edgeMap.size());
         // A
         Assert.assertTrue("Should contain node A.", edgeMap.containsKey(Id.create("A", ActivityFacility.class)));
-        Assert.assertEquals("Wrong number of edges for A.", 1, edgeMap.get(Id.create("A", ActivityFacility.class)).size());
+        Assert.assertEquals("Wrong number of edges for A.", 2, edgeMap.get(Id.create("A", ActivityFacility.class)).size());
+        Assert.assertEquals("Wrong weight.", 1.0, edgeMap.get(Id.create("A", ActivityFacility.class)).get(Id.create("B", ActivityFacility.class)), MatsimTestUtils.EPSILON);
         Assert.assertEquals("Wrong weight.", 2.0, edgeMap.get(Id.create("A", ActivityFacility.class)).get(Id.create("C", ActivityFacility.class)), MatsimTestUtils.EPSILON);
         // B
         Assert.assertTrue("Should contain node B.", edgeMap.containsKey(Id.create("B", ActivityFacility.class)));
@@ -212,13 +220,82 @@ public class PathDependentNetworkTest {
     }
 
 
+    @Test
+    public void testPathDependence(){
+        List<DigicoreChain> chains = setupListOfChains();
+
+        PathDependentNetwork pdn = new PathDependentNetwork(12345L);
+        for (DigicoreChain chain : chains) {
+            pdn.processActivityChain(chain);
+        }
+
+        // A
+        PathDependentNode nodeA = pdn.getPathDependentNode(Id.createNodeId("A"));
+        Assert.assertEquals("Wrong number of path dependence entries.", 1, nodeA.getPathDependence().size());
+        Assert.assertTrue("Should contain 'source'.", nodeA.getPathDependence().containsKey(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)));
+        Assert.assertEquals("Wrong number of destinations.", 3, nodeA.getPathDependence().get(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)).size());
+        Assert.assertTrue("Destination should exist", nodeA.getPathDependence().get(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)).containsKey(Id.createNodeId("B")));
+        Assert.assertTrue("Destination should exist", nodeA.getPathDependence().get(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)).containsKey(Id.createNodeId("C")));
+        Assert.assertTrue("Destination should exist", nodeA.getPathDependence().get(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)).containsKey(Id.createNodeId(ComplexNetworkUtils.NAME_UNKNOWN)));
+
+        // B
+        PathDependentNode nodeB = pdn.getPathDependentNode(Id.createNodeId("B"));
+        Assert.assertEquals("Wrong number of path dependence entries.", 3, nodeB.getPathDependence().size());
+        Assert.assertTrue("Should contain 'A'.", nodeB.getPathDependence().containsKey(Id.createNodeId("A")));
+        Assert.assertTrue("Should contain 'source'.", nodeB.getPathDependence().containsKey(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)));
+        Assert.assertTrue("Should contain 'unknown'.", nodeB.getPathDependence().containsKey(Id.createNodeId(ComplexNetworkUtils.NAME_UNKNOWN)));
+        // B - C
+        Assert.assertEquals("Wrong number of destinations.", 1, nodeB.getPathDependence().get(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)).size());
+        Assert.assertTrue("Destination should exist", nodeB.getPathDependence().get(Id.createNodeId(ComplexNetworkUtils.NAME_SOURCE)).containsKey(Id.createNodeId("C")));
+        // ?? - B - C
+        Assert.assertEquals("Wrong number of destinations.", 1, nodeB.getPathDependence().get(Id.createNodeId(ComplexNetworkUtils.NAME_UNKNOWN)).size());
+        Assert.assertTrue("Destination should exist", nodeB.getPathDependence().get(Id.createNodeId(ComplexNetworkUtils.NAME_UNKNOWN)).containsKey(Id.createNodeId("C")));
+        // A - B - ??
+        Assert.assertEquals("Wrong number of destinations.", 1, nodeB.getPathDependence().get(Id.createNodeId("A")).size());
+        Assert.assertTrue("Destination should exist", nodeB.getPathDependence().get(Id.createNodeId("A")).containsKey(Id.createNodeId(ComplexNetworkUtils.NAME_UNKNOWN)));
+
+        // C
+        PathDependentNode nodeC = pdn.getPathDependentNode(Id.createNodeId("C"));
+        Assert.assertEquals("Wrong number of path dependence entries.", 2, nodeC.getPathDependence().size());
+        Assert.assertTrue("Should contain 'A'.", nodeC.getPathDependence().containsKey(Id.createNodeId("A")));
+        Assert.assertTrue("Should contain 'B'.", nodeC.getPathDependence().containsKey(Id.createNodeId("B")));
+        // A - C - D/E
+        Assert.assertEquals("Wrong number of destinations.", 2, nodeC.getPathDependence().get(Id.createNodeId("A")).size());
+        Assert.assertTrue("Destination should exist", nodeC.getPathDependence().get(Id.createNodeId("A")).containsKey(Id.createNodeId("D")));
+        Assert.assertTrue("Destination should exist", nodeC.getPathDependence().get(Id.createNodeId("A")).containsKey(Id.createNodeId("E")));
+        // B - C - D/E
+        Assert.assertEquals("Wrong number of destinations.", 2, nodeC.getPathDependence().get(Id.createNodeId("B")).size());
+        Assert.assertTrue("Destination should exist", nodeC.getPathDependence().get(Id.createNodeId("B")).containsKey(Id.createNodeId("D")));
+        Assert.assertTrue("Destination should exist", nodeC.getPathDependence().get(Id.createNodeId("B")).containsKey(Id.createNodeId(ComplexNetworkUtils.NAME_UNKNOWN)));
+
+        // D
+        PathDependentNode nodeD = pdn.getPathDependentNode(Id.createNodeId("D"));
+        Assert.assertEquals("Wrong number of path dependence entries.", 1, nodeD.getPathDependence().size());
+        Assert.assertTrue("Should contain 'C'.", nodeD.getPathDependence().containsKey(Id.createNodeId("C")));
+        // Sink only
+        Assert.assertEquals("Wrong number of destinations.", 1, nodeD.getPathDependence().get(Id.createNodeId("C")).size());
+        Assert.assertTrue("Destination should exist", nodeD.getPathDependence().get(Id.createNodeId("C")).containsKey(Id.createNodeId(ComplexNetworkUtils.NAME_SINK)));
+
+        // E
+        PathDependentNode nodeE = pdn.getPathDependentNode(Id.createNodeId("E"));
+        Assert.assertEquals("Wrong number of path dependence entries.", 1, nodeE.getPathDependence().size());
+        Assert.assertTrue("Should contain 'C'.", nodeE.getPathDependence().containsKey(Id.createNodeId("C")));
+        // Sink only
+        Assert.assertEquals("Wrong number of destinations.", 1, nodeE.getPathDependence().get(Id.createNodeId("C")).size());
+        Assert.assertTrue("Destination should exist", nodeE.getPathDependence().get(Id.createNodeId("C")).containsKey(Id.createNodeId(ComplexNetworkUtils.NAME_SINK)));
+
+        // "Unknown"
+        PathDependentNode nodeUnknown = pdn.getPathDependentNode(Id.createNodeId(ComplexNetworkUtils.NAME_UNKNOWN));
+        Assert.assertNull("Should not have unknown node.", nodeUnknown);
+    }
+
     /**
      * Consider the following example: build a network on the following nodes
      * <p>
      * (0,10)       (10,10)        (20,10)
      * A             D              ??
-     * (5,5)
-     * C
+     *      (5,5)
+     *        C
      * B             E
      * (0,0)        (10,0)
      * <p>
@@ -228,6 +305,7 @@ public class PathDependentNetworkTest {
      * A -> C -> E
      * B -> C -> D
      * A -> ?? -> B -> C -> ??
+     * A -> B -> ??
      * <p>
      * The idea is that when at `C', given the former node was `A', it should be
      * equally likely to choose `D' and `E'. Conversely, if the former node was
@@ -304,6 +382,21 @@ public class PathDependentNetworkTest {
         c4.add(da4_C);
         c4.add(da4_dummy2);
         list.add(c4);
+
+        /* A -> B -> ?? */
+        DigicoreActivity da5_A = new DigicoreActivity("test", TimeZone.getDefault(), Locale.ENGLISH);
+        da5_A.setFacilityId(Id.create("A", ActivityFacility.class));
+        da5_A.setCoord(new Coord(0, 10));
+        DigicoreActivity da5_B = new DigicoreActivity("test", TimeZone.getDefault(), Locale.ENGLISH);
+        da5_B.setFacilityId(Id.create("B", ActivityFacility.class));
+        da5_B.setCoord(new Coord(0, 0));
+        DigicoreActivity da5_dummy = new DigicoreActivity("test", TimeZone.getDefault(), Locale.ENGLISH);
+        da5_dummy.setCoord(new Coord(20, 10));
+        DigicoreChain c5 = new DigicoreChain();
+        c5.add(da5_A);
+        c5.add(da5_B);
+        c5.add(da5_dummy);
+        list.add(c5);
 
         return list;
     }

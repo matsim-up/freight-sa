@@ -57,7 +57,6 @@ public class DigicorePathDependentNetworkReader_v2 extends MatsimXmlParser {
 	
 	/**
 	 * Executes the path-dependent network reader.
-	 * @param args
 	 */
 	public static void main(String[] args){
 		String input = args[0];

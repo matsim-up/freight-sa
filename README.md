@@ -18,14 +18,14 @@ To use `freight-sa` as a dependency in an external maven project, update the ext
 </repositories>
 ```
 
-and the depency on `freight-sa`
+and the dependency on `freight-sa`
 
 ```
 <dependencies>
 	<dependency>
   		<groupId>org.matsim.up.freight</groupId>
   		<artifactId>freight-sa</artifactId>
-  		<version>13.0-2021w08-SNAPSHOT</version>
+  		<version>14.0-PR1518</version>
 	</dependency>
 </dependencies>
 ```

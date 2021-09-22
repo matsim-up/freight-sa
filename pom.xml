@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.matsim.up.freight</groupId>
     <artifactId>freight-sa</artifactId>
-    <version>14.0-PR1618</version>
+    <version>14.0-PR1680-SNAPSHOT</version>
     <name>freight-sa</name>
 
     <properties>
@@ -15,7 +15,7 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <!-- MATSim version to use -->
-        <matsim.version>14.0-PR1618</matsim.version>
+        <matsim.version>14.0-PR1680</matsim.version>
     </properties>
 
 
@@ -82,7 +82,7 @@
         <dependency>
             <groupId>org.matsim.up</groupId>
             <artifactId>matsim-up</artifactId>
-            <version>${matsim.version}</version>
+            <version>${matsim.version}-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

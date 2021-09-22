@@ -1,4 +1,4 @@
-[![Travis Build Status](https://app.travis-ci.com/matsim-up/freight-sa.svg?branch=master)](https://app.travis-ci.com/matsim-up/freight-sa.svg?branch=master)
+[![Build Status](https://app.travis-ci.com/matsim-up/freight-sa.svg?branch=master)](https://app.travis-ci.com/matsim-up/freight-sa)
 [![Packagecloud Repository](https://img.shields.io/badge/java-packagecloud.io-844fec.svg)](https://packagecloud.io/matsim-up/freight-sa/)
 
 

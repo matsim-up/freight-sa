@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.matsim.up.freight</groupId>
     <artifactId>freight-sa</artifactId>
-    <version>14.0-PR1680-SNAPSHOT</version>
+    <version>14.0-PR1720-SNAPSHOT</version>
     <name>freight-sa</name>
 
     <properties>
@@ -15,7 +15,7 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <!-- MATSim version to use -->
-        <matsim.version>14.0-PR1680</matsim.version>
+        <matsim.version>14.0-PR1720</matsim.version>
     </properties>
 
 
@@ -84,6 +84,35 @@
             <artifactId>matsim-up</artifactId>
             <version>${matsim.version}-SNAPSHOT</version>
         </dependency>
+
+        <!-- Jung for complex networks and graphs in general -->
+        <dependency>
+            <groupId>com.northdata.jung</groupId>
+            <artifactId>jung-api</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.northdata.jung</groupId>
+            <artifactId>jung-graph-impl</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.northdata.jung</groupId>
+            <artifactId>jung-io</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.northdata.jung</groupId>
+            <artifactId>jung-algorithms</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.northdata.jung</groupId>
+            <artifactId>jung-visualization</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+
+
     </dependencies>
 
 

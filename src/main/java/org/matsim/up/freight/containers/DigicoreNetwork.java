@@ -27,6 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import edu.uci.ics.jung.algorithms.util.WeightedChoice;
+import edu.uci.ics.jung.graph.DirectedSparseGraph;
+import edu.uci.ics.jung.graph.util.EdgeType;
+import edu.uci.ics.jung.graph.util.Pair;
 import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
@@ -34,31 +38,26 @@ import org.matsim.core.gbl.MatsimRandom;
 import org.matsim.core.utils.collections.Tuple;
 import org.matsim.facilities.ActivityFacility;
 
-import edu.uci.ics.jung.algorithms.util.WeightedChoice;
-import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.graph.util.EdgeType;
-import edu.uci.ics.jung.graph.util.Pair;
-
 /**
  * Class to describe the network graph created from consecutive activities.
  * 
  * @author jwjoubert
  */
-public class DigicoreNetwork extends DirectedSparseGraph<Id<ActivityFacility>, Pair<Id<ActivityFacility>>>{
+public class DigicoreNetwork extends DirectedSparseGraph<Id<ActivityFacility>, Pair<Id<ActivityFacility>>> {
 	private final Logger LOG = Logger.getLogger(DigicoreNetwork.class);
-	
+
 	private List<String> activityTypes;
 	
 	private Map< Tuple<Pair<Id<ActivityFacility>>, Pair<String>>, Integer> weights 
-		= new LinkedHashMap<Tuple<Pair<Id<ActivityFacility>>,Pair<String>>, Integer>();
+		= new LinkedHashMap<>();
 	
 	/* Different weight maps. */
-	private Map<Tuple<Id<ActivityFacility>, String>, Map<Id<ActivityFacility>, Integer>> nodeWeightMap = 
-			new LinkedHashMap<Tuple<Id<ActivityFacility>,String>, Map<Id<ActivityFacility>,Integer>>();
-	private Map<String, Map<Id<ActivityFacility>, Integer>> originWeightMaps = 
-			new LinkedHashMap<String, Map<Id<ActivityFacility>,Integer>>();
-	private Map<String, Map<Id<ActivityFacility>, Integer>> destinationWeightMaps = 
-			new LinkedHashMap<String, Map<Id<ActivityFacility>,Integer>>();
+	private Map<Tuple<Id<ActivityFacility>, String>, Map<Id<ActivityFacility>, Integer>> nodeWeightMap =
+			new LinkedHashMap<>();
+	private Map<String, Map<Id<ActivityFacility>, Integer>> originWeightMaps =
+			new LinkedHashMap<>();
+	private Map<String, Map<Id<ActivityFacility>, Integer>> destinationWeightMaps =
+			new LinkedHashMap<>();
 	
 	private Map<Id<ActivityFacility>,Coord> coord = new HashMap<Id<ActivityFacility>, Coord>();
 	public int nodeCounter = 0;
@@ -110,7 +109,7 @@ public class DigicoreNetwork extends DirectedSparseGraph<Id<ActivityFacility>, P
 		/* Add the edge with weight 1 if it does not exist yet, otherwise 
 		 * increment weight. These are the general network weights, and
 		 * does not take activity pairs into account. */
-		Tuple<Pair<Id<ActivityFacility>>, Pair<String>> tuple = new Tuple<Pair<Id<ActivityFacility>>, Pair<String>>( idPair, typePair );
+		Tuple<Pair<Id<ActivityFacility>>, Pair<String>> tuple = new Tuple<>(idPair, typePair);
 		if(!this.containsEdge(idPair)){
 			this.addEdge(idPair, origin.getFacilityId(), destination.getFacilityId(), EdgeType.DIRECTED);
 			weights.put(tuple, 1);
@@ -182,8 +181,6 @@ public class DigicoreNetwork extends DirectedSparseGraph<Id<ActivityFacility>, P
 	 * combinations are added together. In a multiplex network, you may 
 	 * want to get the weight for each activity type combination uniquely,
 	 * then rather use the method {@link #getMultiplexEdgeWeight(Id, String, Id, String)}
-	 * @param origin
-	 * @param destination
 	 * @return the weight of the directed edge, or 0 if the edge is not in the graph.
 	 */
 	public int getEdgeWeight(Id<ActivityFacility> oId, Id<ActivityFacility> dId){

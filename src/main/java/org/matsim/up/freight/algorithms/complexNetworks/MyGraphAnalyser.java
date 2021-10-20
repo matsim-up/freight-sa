@@ -20,14 +20,10 @@
 
 package org.matsim.up.freight.algorithms.complexNetworks;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.base.Function;
+import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
+import edu.uci.ics.jung.algorithms.scoring.EigenvectorCentrality;
+import edu.uci.ics.jung.graph.util.Pair;
 import org.apache.log4j.Logger;
 import org.matsim.api.core.v01.Coord;
 import org.matsim.api.core.v01.Id;
@@ -38,11 +34,9 @@ import org.matsim.facilities.ActivityFacility;
 import org.matsim.up.freight.containers.DigicoreNetwork;
 import org.matsim.up.utils.Header;
 
-import com.google.common.base.Function;
-
-import edu.uci.ics.jung.algorithms.importance.BetweennessCentrality;
-import edu.uci.ics.jung.algorithms.scoring.EigenvectorCentrality;
-import edu.uci.ics.jung.graph.util.Pair;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.*;
 
 public class MyGraphAnalyser {
 	private final static Logger LOG = Logger.getLogger(MyGraphAnalyser.class);
@@ -129,15 +123,15 @@ public class MyGraphAnalyser {
 		}
 		
 		LOG.info("Evaluating the betweenness centrality...");
-		BetweennessCentrality<Id<ActivityFacility>, Pair<Id<ActivityFacility>>> bc = 
-				new BetweennessCentrality<Id<ActivityFacility>, Pair<Id<ActivityFacility>>>(network);
+		BetweennessCentrality<Id<ActivityFacility>, Pair<Id<ActivityFacility>>> bc =
+				new BetweennessCentrality<>(network);
 		bc.setEdgeWeights(weightMap);
 		bc.setRemoveRankScoresOnFinalize(false);
 		bc.evaluate();
 		
 		LOG.info("Evaluating the Eigenvector centrality...");
-		EigenvectorCentrality<Id<ActivityFacility>, Pair<Id<ActivityFacility>>> ec = 
-				new EigenvectorCentrality<Id<ActivityFacility>, Pair<Id<ActivityFacility>>>(network);		
+		EigenvectorCentrality<Id<ActivityFacility>, Pair<Id<ActivityFacility>>> ec =
+				new EigenvectorCentrality<>(network);
 		Function<Pair<Id<ActivityFacility>>, Number> t = new MyFunction(network);
 		ec.setEdgeWeights(t);
 		LOG.info("   tolerance: " + ec.getTolerance());
@@ -156,7 +150,7 @@ public class MyGraphAnalyser {
 		} catch(IllegalArgumentException e){
 			LOG.error("Cannot complete Eigenvector centrality... adding artificial edges.");
 			DigicoreNetwork network2 = addArtificialEdges(network);
-			ec = new EigenvectorCentrality<Id<ActivityFacility>, Pair<Id<ActivityFacility>>>(network2);
+			ec = new EigenvectorCentrality<>(network2);
 			ec.setEdgeWeights(t);			
 			ec.setMaxIterations(10000);
 			ec.setTolerance(1e-8 );

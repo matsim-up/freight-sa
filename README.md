@@ -25,7 +25,7 @@ and the dependency on `freight-sa`
 	<dependency>
   		<groupId>org.matsim.up.freight</groupId>
   		<artifactId>freight-sa</artifactId>
-  		<version>14.0-PR1680-SNAPSHOT</version>
+  		<version>14.0-PR1720-SNAPSHOT</version>
 	</dependency>
 </dependencies>
 ```

@@ -22,12 +22,11 @@ package org.matsim.up.freight.algorithms.complexNetworks;
 
 import java.util.Map;
 
+import edu.uci.ics.jung.graph.util.Pair;
 import org.matsim.api.core.v01.Id;
 import org.matsim.facilities.ActivityFacility;
 
 import com.google.common.base.Function;
-
-import edu.uci.ics.jung.graph.util.Pair;
 
 public class DigicoreEdgeWeightTransformer implements Function<Pair<Id<ActivityFacility>>, String> {
 	private final Map<Pair<Id<ActivityFacility>>, Integer> map;

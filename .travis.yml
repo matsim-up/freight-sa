@@ -1,6 +1,6 @@
 language: java
 dist: trusty
-jdk: openjdk11
+jdk: openjdk17
 #addons:
 #  apt:
 #    packages:

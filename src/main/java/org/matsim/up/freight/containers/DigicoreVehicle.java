@@ -1,6 +1,6 @@
 package org.matsim.up.freight.containers;
 
-import org.jfree.util.Log;
+import org.apache.log4j.Logger;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiPolygon;
@@ -97,7 +97,7 @@ public class DigicoreVehicle implements Vehicle {
 			}
 			
 		}else{
-			Log.warn("Vehicle " + this.getId() + " contains no activities.");
+			Logger.getLogger(DigicoreVehicle.class).warn("Vehicle " + this.getId() + " contains no activities.");
 		}
 				
 		return vehicleType;
